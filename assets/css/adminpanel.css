@@ -1,0 +1,53 @@
+@import './global.css';
+
+body {
+    background-color: #F7F7F7;
+}
+
+.sidebar {
+    /* position: fixed; */
+    /* top: 0;
+    left: 0; */
+    height: 200vh; /*view height change  required later in accordance with content length*/
+    width: 260px;
+    background-color: white;
+    padding-top: 40px;
+    font-weight: 400;
+}
+
+#menubar {
+    height: 100%;
+    padding-top: 40px;
+    position: fixed; /*should change if any position fixed error occurs*/
+}
+
+.sidebar a {
+    padding: 10px 20px;
+    /* display: block; */
+    color: gray;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background-color: #E8EFFD;
+}
+/* side item styles when click */
+#sideitem:active, #sideitem.btnclick {
+    color: black;
+    font-weight: 500;
+}
+.dropdown-menu {
+    background-color: white;
+    padding-left: 30px;
+    /* background-color: transparent; */
+    box-shadow: none;
+    border: none;
+}
+
+.dropdown-item {
+    color: #2769E6;
+}
+
+.dropdown-item:hover {
+    background-color: #E8EFFD;
+}

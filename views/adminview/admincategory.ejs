@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SooperMeals Admin</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Root CSS -->
+  <link rel="stylesheet" href="/css/adminpanel.css">
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow fixed-top">
+  <div class="container d-flex justify-content-center">
+      <a class="navbar-brand" href="#"><img class="img-fluid" src="/img/soopermealslogo.png" alt="SooperMeals" style="max-width: 80px;"></a>
+  </div>
+</nav>
+
+<div class="container-fluid d-flex p-0">
+
+    <!-- Menubar -->
+    <div class="sidebar">
+      <ul class="nav flex-column shadow-sm px-2" id="menubar">
+        <li class="nav-item pb-1">
+          <a class="nav-link" href="/admin/home">Dashboard</a>
+        </li>
+
+        <li class="nav-item dropdown pb-1">
+          <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User Management
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productDropdown">
+            <li><a class="dropdown-item" href="/admin/userdetails">User Details<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown pb-1">
+          <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Product Management
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productDropdown">
+            <li><a class="dropdown-item" href="#">List Products</a></li>
+            <li><a class="dropdown-item" href="#">Add Product</a></li>
+            <li><a class="dropdown-item" href="#">Product Categories</a></li>
+            <li><a class="dropdown-item" href="/admin/addproductcategory">Add Categories</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+      <% if(locals.catinfosuccess){%>
+        <div class="alert alert-success text-center mt-4" role="alert">Category <%= catinfosuccess %> succesfully.</div>
+        <%} %>
+      <% if(locals.catdelsuccess){%>
+        <div class="alert alert-danger text-center mt-4" role="alert">Category <%= catdelsuccess %> deleted succesfully.</div>
+        <%} %>
+      <table class="table table-striped mt-4 overflow-hidden rounded text-center">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">No.</th>
+            <th scope="col">Category</th>
+            <th scope="col"><span class="mx-2"></span>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <% if(categorydata.length>0){%>
+            <% categorydata.forEach((data, index)=>{%>
+                <tr>
+                    <th scope="row"><%= index+1 %></th>
+                    <td><%= data.category %></td>
+                    <td><a href="/admin/editproductcategory/<%= data._id %>" class="btn btn-sm btn-success mx-2">Update</a>
+                        <a onclick="openConfirmDeleteModal('/admin/deleteproductcategory/<%= data._id%>')" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                <%}) %>
+            <%} %>
+
+        </tbody>
+      </table>
+
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm your action</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to Delete this category?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer class="fixed-bottom bg-dark text-center text-white">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    Designed with love 
+    <a class="text-white" href="#" style="text-decoration: none;">&copy;Soopermeals</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+<!-- Modal JQuery-->
+<script>
+    function openConfirmDeleteModal(url) {
+        $('#confirmDeleteModal').modal('show');
+        $('#confirmDeleteBtn').click(()=>{
+            window.location.href = url;
+        });
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- Bootstrap JS  -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

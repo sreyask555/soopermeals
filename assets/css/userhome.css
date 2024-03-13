@@ -1,0 +1,12 @@
+@import './global.css';
+
+.gradient-rect {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: #fff;
+    padding-bottom: 10%;
+    padding-left: 10%;
+    padding-top: 10%;
+}
+.gradient-rect h1{
+    font-size: 80px;
+}
