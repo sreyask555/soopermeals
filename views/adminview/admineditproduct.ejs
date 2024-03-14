@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SooperMeals Admin</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Root CSS -->
+  <link rel="stylesheet" href="/css/adminpanel.css">
+
+  <!-- SweetAlert JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- AJAX -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow fixed-top">
+  <div class="container d-flex justify-content-center">
+      <a class="navbar-brand" href="#"><img class="img-fluid" src="/img/soopermealslogo.png" alt="SooperMeals" style="max-width: 80px;"></a>
+  </div>
+</nav>
+
+<div class="container-fluid d-flex p-0">
+
+    <!-- Menubar -->
+    <div class="sidebar">
+      <ul class="nav flex-column shadow-sm px-2" id="menubar">
+        <li class="nav-item pb-1">
+          <a class="nav-link" href="/admin/home">Dashboard</a>
+        </li>
+
+        <li class="nav-item dropdown pb-1">
+          <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User Management
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productDropdown">
+            <li><a class="dropdown-item" href="/admin/userdetails">User Details<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown pb-1">
+          <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Product Management
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productDropdown">
+            <li><a class="dropdown-item" href="/admin/products">List Products</a></li>
+            <li><a class="dropdown-item" href="/admin/addproducts">Add Product</a></li>
+            <li><a class="dropdown-item" href="/admin/productcategory">Product Categories</a></li>
+            <li><a class="dropdown-item" href="/admin/addproductcategory">Add Categories</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-5">
+
+      <!-- Food added to DB Alert-->
+
+        <form class="row p-5 needs-validation" action="/admin/editproducts/<%= fooddata._id %>" method="POST" enctype="multipart/form-data" novalidate>
+
+            <div class="col-md-4 mb-3">
+                <label for="foodInput" class="form-label">Enter a new food item</label>
+                <input name="foodname" value="<%= fooddata.foodname %>" type="text" class="form-control" id="foodInput" required>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label" for="category">Category</label>
+                <select name="foodcategory" class="form-select" id="category" required>
+                  <!-- <option value="<%= fooddata.foodcategory %>" selected><%= fooddata.foodcategory %></option> -->
+                  <% if(categorydata.length > 0){%>
+                    <% categorydata.forEach((data)=>{%>
+                      <!-- avoid duplicate codeset start -->
+                      <% if(data.category == fooddata.foodcategory){%>
+                        <option value="<%= fooddata.foodcategory %>" selected><%= fooddata.foodcategory %></option>
+                        <%}
+                        else{%>
+                        <option value="<%= data.category %>"><%= data.category %></option>
+                          <%} %>
+                      <!-- avoid duplicate codeset end -->
+                        <!-- <option value="<%= data.category %>"><%= data.category %></option> -->
+                        <%}) %>
+                    <%} %>
+                  <!-- <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option> -->
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="priceInput" class="form-label">Enter the price</label>
+                <input name="foodprice" value="<%= fooddata.foodprice %>" type="number" class="form-control" id="priceInput" required>
+            </div>
+
+            <!-- <div class="col-md-3 mb-3">
+                <label class="form-label" for="rating">Rating</label>
+                <select name="foodrating" class="form-select" id="rating" required>
+                  <option value="<%= fooddata.foodrating %>" selected><%= fooddata.foodrating %></option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="3">4</option>
+                  <option value="3">5</option>
+                </select>
+            </div>             -->
+
+            <!-- radio btn auto value setting to be checked (on edit) -->
+            <fieldset class="col-md-3 mb-3">
+              <legend class="col-form-label">Choose the food type</legend>
+              <div class="d-flex justify-content-between">
+                <div class="form-check">
+                  <input name="foodtype" class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="Vegetarian" required>
+                  <label class="form-check-label" for="gridRadios1">Vegetarian</label>
+                </div>
+                <div class="form-check">
+                  <input name="foodtype" class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="Non - Vegetarian" required>
+                  <label class="form-check-label" for="gridRadios2">Non - Vegetarian</label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="col-md-6 mb-3">
+                <label for="inputEmail3" class="form-label">Enter a description</label>
+                <input name="fooddescription" value="<%= fooddata.fooddescription %>" type="text" class="form-control" id="inputEmail3" required>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label for="imgupload" class="form-label"><button style="pointer-events: none;" class="btn btn-warning mt-4">Select Images</button></label>
+                <!-- <label for="imgupload" class="form-label">Choose images</label> -->
+                <input name="foodimage" style="display: none;" class="form-control form-control-sm" id="imgupload" type="file" accept="image/*" required multiple onchange="previewImages(event)">
+                <div id="image-preview" class="image-preview"></div>
+            </div>
+
+            <!-- new code compared to add products-->
+            <% fooddata.foodimage.forEach((imgdata, index) => { %>
+                <input type="hidden" name="currentImages[]" value="<%= imgdata %>">
+            <% }); %>
+
+            <div class="form-group mt-3">
+                <label for="currentImages" class="fw-semibold">Current Images</label>
+                <div id="currentImages" class="d-flex flex-column">
+                    <div id="current-images" class="image-preview mt-3">
+                        <div class="d-flex">
+                        <% fooddata.foodimage.forEach((imgdata, index) => { %>
+                            <div class="d-flex flex-column">
+                                <img class="rounded" style="height: 80px; width: 80px; margin: 10px;" src="<%= imgdata %>" alt="">
+                                <button type="button" style="width: 80px; margin: auto;" class="btn btn-danger remove-image" data-foodid="<%= fooddata._id %>" data-foodindex="<%= index %>">Delete</button>
+                            </div>
+                        <% }); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-3 gap-3">
+                <a href="/admin/products" class="btn btn-secondary">Back to products</a>
+                <button type="submit" class="btn btn-success">Update Product</button>
+            </div>
+          </form>
+
+    </div>
+
+</div>
+
+<footer class="fixed-bottom bg-dark text-center text-white">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    Designed with love 
+    <a class="text-white" href="#" style="text-decoration: none;">&copy;Soopermeals</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+
+<script>
+  // New images preview JS
+  let selectedFiles = []; // Maintain an array to store selected files
+
+  function previewImages(event) {
+      const previewContainer = document.getElementById('image-preview');
+      previewContainer.innerHTML = '';
+
+      // Update the array of selected files
+      const selectedFiles = event.target.files;
+
+      //Check all the files are images
+      for(let img of selectedFiles){
+        if (!img.type.includes('image/')){
+          Swal.fire({
+                  icon: "error",
+                  title: "File upload error !",
+                  text : 'Please upload only images',
+                  showConfirmButton: true,
+          });
+          return;
+        }
+      }
+
+      for (const file of selectedFiles) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+              const imgWrapper = document.createElement('div');
+              imgWrapper.className = 'd-inline-flex flex-column align-items-center';
+
+              // Image creation for preview
+              const img = document.createElement('img');
+              img.style.height = "80px";
+              img.style.width = "80px";
+              img.style.margin = "10px";
+              img.src = e.target.result;
+              img.classList.add('preview-image');
+              img.classList.add('rounded');
+              imgWrapper.appendChild(img);
+
+              // Delete button for images
+              const deleteButton = document.createElement('button');
+              deleteButton.textContent = 'Delete';
+              deleteButton.className = 'btn btn-danger btn-sm';
+              deleteButton.style.width = "80px";
+              deleteButton.onclick = function () {
+                  imgWrapper.remove();
+                  removeFile(file); // Remove the corresponding file from the array
+              };
+              imgWrapper.appendChild(deleteButton);
+
+              previewContainer.appendChild(imgWrapper);
+          };
+
+          reader.readAsDataURL(file);
+      }
+  }
+
+  // Removing newly uploaded image files
+  // check this is working when removing from DOM as well as from image array after file selected from file manager before submitting to DB
+  function removeFile(fileToRemove) {
+      selectedFiles = Array.from(selectedFiles).filter((file) => {
+        file !== fileToRemove;
+      });
+  }
+
+  // Old images removing from DOM and DB using fetchAPI
+  let removeImageBtnNodeList = document.querySelectorAll('.remove-image');
+  console.log(removeImageBtnNodeList)
+  for(let removeImageBtn of removeImageBtnNodeList){
+    removeImageBtn.addEventListener('click', () => {
+    fetch('http://localhost:3000/admin/removeImagefetchAPI', {
+      method : 'POST',
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      body : JSON.stringify({
+        foodid : removeImageBtn.dataset.foodid,
+        foodindex : removeImageBtn.dataset.foodindex
+      })
+    }).then((res) => {
+      // remove item from DOM ----- CHECK THIS (try req.params and reload using res.redirect('/admin/editproduct/:id'))
+      // removeImageBtn.prev('img').remove();
+      // removeImageBtn.remove()
+    }).catch((err) => console.info(err));
+    });
+  }
+
+</script>
+
+
+<!-- Bootstrap JS  -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Root JS -->
+<script src="/js/global.js"></script>
+
+</body>
+</html>

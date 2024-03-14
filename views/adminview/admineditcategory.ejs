@@ -41,10 +41,10 @@
             Product Management
           </a>
           <ul class="dropdown-menu" aria-labelledby="productDropdown">
-            <li><a class="dropdown-item" href="#">List Products</a></li>
-            <li><a class="dropdown-item" href="#">Add Product</a></li>
+            <li><a class="dropdown-item" href="/admin/products">List Products</a></li>
+            <li><a class="dropdown-item" href="/admin/addproducts">Add Product</a></li>
             <li><a class="dropdown-item" href="/admin/productcategory">Product Categories</a></li>
-            <li><a class="dropdown-item" href="#">Add Categories</a></li>
+            <li><a class="dropdown-item" href="/admin/addproductcategory">Add Categories</a></li>
           </ul>
         </li>
       </ul>
@@ -52,13 +52,19 @@
 
     <!-- Main Content -->
     <div class="container-fluid mt-5">
+      <% if(locals.catinfofail){%>
+        <div class="alert alert-danger text-center mt-2" role="alert"><%= catinfofail %></div>
+        <%} %>
         <form class="col-md-6 p-5" action="/admin/editproductcategory/<%= categorydata._id %>" method="POST">
             <div class="mb-3">
               <label for="categoryInput" class="form-label">Edit following category</label>
               <input value="<%= categorydata.category %>" name="category" type="text" class="form-control" id="categoryInput" aria-describedby="categoryHelp" required>
               <div id="categoryHelp" class="form-text">Use generic names for category.</div>
             </div>
-            <button type="submit" class="btn btn-primary">Update category</button>
+            <div class="d-flex mt-3 gap-3">
+              <a href="/admin/productcategory" class="btn btn-secondary">Cancel</a>
+              <button type="submit" class="btn btn-primary">Update category</button>
+            </div>
           </form>
 
     </div>
