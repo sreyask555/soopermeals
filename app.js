@@ -4,6 +4,7 @@ const nocache = require('nocache');
 const { v4: uuidv4 } = require('uuid');
 const morgan = require('morgan');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 const adminrouter = require('./routes/admin');
 const userrouter = require('./routes/user');
@@ -29,6 +30,7 @@ app.use(session({
 }));
 app.use(morgan('tiny'));
 app.use(cors());
+dotenv.config();
 
 // Custom middlewares for router instances
 app.use('/', userrouter);
