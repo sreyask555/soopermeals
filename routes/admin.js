@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const admin = require('../controller/admincontroller');
+const admindatacollection = require('../models/adminDB');
 
 // Application Middlewares
 const multer = require('multer');
@@ -17,14 +18,30 @@ const storage = multer.diskStorage({
 // Middleware for multiple images uploading
 const multerImageUpload = multer({ storage : storage}).array('foodimage');
 
+// Authentication Middleware
+const checkAdminLoggedIn =  async (req, res, next) => {
+    try{
+        if(req.session.isAdminLoggedIn){
+            next();
+        }
+        else{
+            req.session.destroy();
+            res.redirect('/admin');
+        }
+    }
+    catch{
+        req.session.destroy();
+        res.redirect('/admin');
+    }
+}
+
 // ADMIN ROUTES
 // Login
 router.get('/', admin.adminloginget);
 router.post('/', admin.adminloginpost);
 
 // Home
-// can use a middleware for admin auth check if need
-router.get('/home', admin.adminhome);
+router.get('/home',checkAdminLoggedIn, admin.adminhome);
 
 // User Management
 router.get('/userdetails', admin.adminuserdetails);

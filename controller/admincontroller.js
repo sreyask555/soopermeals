@@ -15,7 +15,8 @@ const controls = {
         try{
             const adminauthcheck = await admindatacollection.findOne({adminemail : email});
             if(email==adminauthcheck.adminemail && password==adminauthcheck.adminpassword){
-                req.session.adminAlerts.isAdminLoggedIn = true;
+                req.session.isAdminLoggedIn = true;
+                // req.session.adminID = adminData._id;(authorization for multi-admin)
                 console.log(req.session);
                 res.redirect('/admin/home')
             }
