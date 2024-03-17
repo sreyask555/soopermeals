@@ -40,6 +40,8 @@ router.post('/otp',user.userotppost);
 // Home
 router.get('/home',checkUserIsBlocked, user.userhome);
 router.get('/home', user.userhome);
+
+// search-apis
 router.get('/searchFoodfetchAPI', user.usersearchFoodfetchAPI);
 router.get('/filterFoodfetchAPI', user.userfilterFoodfetchAPI);
 router.get('/sortFoodfetchAPI', user.usersortFoodfetchAPI);
