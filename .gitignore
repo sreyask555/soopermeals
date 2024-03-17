@@ -1,0 +1,4 @@
+# system dep
+.env
+# node dependencies
+node_modules
