@@ -1,14 +1,4 @@
-const mongoose = require('mongoose');
-
-// MongoDB-Node Connection
-mongoose.connect('mongodb://127.0.0.1:27017/soopermeal')
-.then(()=>{
-    console.log('MongoDB Connected for User Schema');
-})
-.catch((err)=>{
-    console.log('MongoDB failed to connect');
-    console.error(err.stack);
-})
+const mongoose = require('./mongoDB');
 
 // doc-schemas
 const UserDataSchema = new mongoose.Schema({
