@@ -9,6 +9,8 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Panel CSS -->
+  <link rel="stylesheet" href="/css/userprofilepanel.css">
 </head>
 
 <body>
@@ -25,9 +27,68 @@
     </div>
   </nav>
 
-  <div class="container mt-5">
-    <h1>hiii</h1>
-  </div>
+  <div class="container-fluid d-flex p-0">
+
+    <div class="sidebar shadow fw-semibold fs-6">
+        <ul class="nav flex-column px-5" id="menubar">
+            <li class="nav-item pb-1">
+            <a class="nav-link" href="#">Profile</a>
+            </li>
+
+            <li class="nav-item pb-1">
+            <a id="sideitem" onclick="this.classList.add('btnclick')" class="nav-link" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Address</a>
+            </li>
+
+            <li class="nav-item pb-1">
+            <a id="sideitem" onclick="this.classList.add('btnclick')" class="nav-link" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Orders</a>
+            </li>
+
+            <li class="nav-item pb-1">
+            <a id="sideitem" onclick="this.classList.add('btnclick')" class="nav-link" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Wallet</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container d-flex flex-column justify-content-center pt-4 mt-5">
+
+      <h2 class="mb-5">Hi, <%= userdata.username %></h2>
+
+      <div class="row col-lg-6">
+        <div class="mb-3">
+            <label for="exampleInputName" class="form-label">Name</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="exampleInputName" value="<%= userdata.username %>" disabled>
+                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2">Edit</button>
+            </div>
+        </div>
+      </div>
+
+      <div class="row col-lg-6">
+        <div class="mb-3">
+            <label for="exampleInputNumber" class="form-label">Mobile Number</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="exampleInputNumber" value="<%= userdata.usernumber %>" disabled>
+                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2">Edit</button>
+            </div>
+            <div id="emailHelp" class="form-text">We'll never share your mobile with anyone else.</div>
+        </div>
+      </div>
+
+      <div class="row col-lg-6">
+        <div class="mb-3">
+            <label for="exampleInputNumber" class="form-label">Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="exampleInputNumber" value="********" disabled>
+                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2">Edit</button>
+            </div>
+            <div id="emailHelp" class="form-text">Never share your password with anyone else.</div>
+        </div>
+      </div>
+
+
+    </div>
+
+</div>
 
   <footer class="fixed-bottom bg-dark text-center text-white">
     <!-- Copyright -->
