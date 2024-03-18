@@ -35,7 +35,7 @@ dotenv.config();
 // Custom middlewares for router instances
 app.use('/', userrouter);
 app.use('/admin', adminrouter);
-// app.use('/profile', profilerouter);
+app.use('/profile', profilerouter);
 // app.use('/cart', cartrouter);
 // app.use('/order', orderrouter);
 
