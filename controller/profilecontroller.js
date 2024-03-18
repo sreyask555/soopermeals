@@ -12,6 +12,26 @@ const controls = {
             res.redirect('/login');
         }
     },
+
+    editprofilenamepost : async (req, res)=>{
+        try{
+            await userdatacollection.findByIdAndUpdate(req.params.id, {username : req.body.value});
+            res.redirect('/profile');
+        }
+        catch(err){
+            console.error(err);
+        }
+    },
+
+    editprofilenumberpost : async (req, res)=>{
+        try{
+            await userdatacollection.findByIdAndUpdate(req.params.id, {usernumber : req.body.value});
+            res.redirect('/profile');
+        }
+        catch(err){
+            console.error(err);
+        }
+    },
 }
 
 module.exports = controls;
