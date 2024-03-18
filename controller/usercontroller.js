@@ -178,6 +178,11 @@ const controls = {
         const filteredFood = await fooddatacollection.find({foodcategory : {$regex: regexPattern}});
         res.json(filteredFood);
     },
+
+    usergetproductinfo : async (req, res)=>{
+        const fooddata = await fooddatacollection.findById(req.params.id);
+        res.render('userproductinfo', {fooddata})
+    }
 }
 
 module.exports = controls;

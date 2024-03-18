@@ -48,4 +48,7 @@ router.get('/searchFoodfetchAPI', user.usersearchFoodfetchAPI);
 router.get('/filterFoodfetchAPI', user.userfilterFoodfetchAPI);
 router.get('/sortFoodfetchAPI', user.usersortFoodfetchAPI);
 
+// Product Details
+router.get('/productinfo/:id', user.usergetproductinfo);
+
 module.exports = router;
