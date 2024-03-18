@@ -20,6 +20,7 @@ const controls = {
         }
         catch(err){
             console.error(err);
+            res.redirect('/login');
         }
     },
 
@@ -30,6 +31,22 @@ const controls = {
         }
         catch(err){
             console.error(err);
+            res.redirect('/login');
+        }
+    },
+
+    editprofilepasswordpost : async (req, res)=>{
+        try{
+            const userdata = await userdatacollection.findById(req.params.id);
+            const {currentpassword, newpassword} = req.body;
+            if(userdata.userpassword == currentpassword){
+                await userdatacollection.findByIdAndUpdate(req.params.id, {userpassword : newpassword});
+            }
+            res.redirect('/profile');
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
         }
     },
 }

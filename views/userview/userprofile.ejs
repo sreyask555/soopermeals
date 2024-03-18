@@ -86,6 +86,8 @@
       </div>
 
       <!-- Modals -->
+
+      <!-- name & number modal -->
       <div class="modal fade" id="exampleModal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -95,6 +97,29 @@
                   </div>
                   <div class="modal-body">
                       <input type="text" class="form-control" name="value">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                  </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- password modal -->
+      <div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form action="/profile/editprofilepassword/<%= userdata._id %>" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4" id="exampleModalLabel">Edit password</h1>
+                  </div>
+                  <div class="modal-body">
+                    <label for="password1" class="col-form-label">Enter current password</label>
+                    <input id="password1" type="password" class="form-control" name="currentpassword">
+                    <label for="password2" class="col-form-label">Enter new password</label>
+                    <input id="password2" type="password" class="form-control" name="newpassword">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

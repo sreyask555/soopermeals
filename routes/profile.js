@@ -24,9 +24,11 @@ const checkUserIsBlocked =  async (req, res, next) => {
 }
 
 // Profile Management
-router.get('/', profile.profileget);
+router.get('/', checkUserIsBlocked, profile.profileget);
 
 router.post('/editprofilename/:id', profile.editprofilenamepost);
 router.post('/editprofilenumber/:id', profile.editprofilenumberpost);
+
+router.post('/editprofilepassword/:id', profile.editprofilepasswordpost);
 
 module.exports = router;
