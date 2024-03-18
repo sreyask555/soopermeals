@@ -17,7 +17,7 @@ const checkUserIsBlocked =  async (req, res, next) => {
         }
     }
     catch{
-        req.session.destroy();
+        // req.session.destroy();
         res.redirect('/login');
     }
 }
@@ -30,8 +30,10 @@ router.get('/login', user.userloginget);
 router.post('/login', user.userloginpost);
 router.get('/signup', user.usersignupget);
 
+// Logout
 router.get('/logout', user.userlogoutget)
 
+// signup-post and JS-fetch(userotp.js) for otp-get fn.
 router.post('/fetchAPI', user.userfetchapi);
 
 // otp-validation

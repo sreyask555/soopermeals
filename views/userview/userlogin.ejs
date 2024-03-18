@@ -22,7 +22,6 @@
     <%} %>
     <!-- Incorrect Credentials -->
   <% if(locals.unauth){ %>
-    <!-- <script>window.alert('Incorrect Credentials, Please enter carefully !')</script> -->
     <script>Swal.fire({
       icon: "error",
       title: "Incorrect Credentials",
@@ -31,7 +30,6 @@
   <%} %>
     <!-- SignUp Success -->
   <% if(locals.signed){%>
-    <!-- <script>window.alert('Welcome you are successfully registered. Kindly login to continue')</script> -->
     <script>Swal.fire({
       icon: "success",
       title: "Welcome, you are successfully registered",

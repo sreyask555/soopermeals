@@ -25,12 +25,12 @@ const checkAdminLoggedIn =  async (req, res, next) => {
             next();
         }
         else{
-            req.session.destroy();
+            // req.session.destroy();
             res.redirect('/admin');
         }
     }
     catch{
-        req.session.destroy();
+        // req.session.destroy();
         res.redirect('/admin');
     }
 }
