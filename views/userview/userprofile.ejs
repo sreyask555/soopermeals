@@ -58,7 +58,7 @@
             <label for="exampleInputName" class="form-label">Name</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="exampleInputName" value="<%= userdata.username %>" disabled>
-                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2">Edit</button>
+                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-type="name" data-bs-value="<%= userdata.username %>">Edit</button>
             </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
             <label for="exampleInputNumber" class="form-label">Mobile Number</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="exampleInputNumber" value="<%= userdata.usernumber %>" disabled>
-                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2">Edit</button>
+                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-type="number" data-bs-value="<%= userdata.usernumber %>">Edit</button>
             </div>
             <div id="emailHelp" class="form-text">We'll never share your mobile with anyone else.</div>
         </div>
@@ -79,12 +79,29 @@
             <label for="exampleInputNumber" class="form-label">Password</label>
             <div class="input-group">
                 <input type="password" class="form-control" id="exampleInputNumber" value="********" disabled>
-                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2">Edit</button>
+                <button class="btn btn-outline-secondary px-5" type="button" id="button-addon2" data-bs-toggle="modal" data-bs-target="#exampleModal2">Edit</button>
             </div>
             <div id="emailHelp" class="form-text">Never share your password with anyone else.</div>
         </div>
       </div>
 
+      <!-- Modals -->
+      <div class="modal fade" id="exampleModal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-4" id="exampleModalLabel">Modal title</h1>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-success">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
@@ -98,6 +115,26 @@
     </div>
     <!-- Copyright -->
   </footer>
+
+  <!-- Modal Data Manipulation -->
+  <script>
+    const exampleModal1 = document.querySelector('#exampleModal1');
+    if (exampleModal1) {
+        exampleModal1.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attribute
+            const value = button.getAttribute('data-bs-value');
+            const type = button.getAttribute('data-bs-type');
+            // Update the modal's content
+            const modalTitle = exampleModal1.querySelector('.modal-title');
+            const modalBodyInput = exampleModal1.querySelector('.modal-body input');
+
+            modalTitle.textContent = `Edit ${type}`;
+            modalBodyInput.value = value;
+        });
+    }
+  </script>
 
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
