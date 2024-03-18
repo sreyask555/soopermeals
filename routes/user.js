@@ -4,7 +4,7 @@ const router = express.Router();
 const user = require('../controller/usercontroller');
 const userdatacollection = require('../models/userDB');
 
-// Middleware for user blocking
+// Middleware for user auth and block status
 const checkUserIsBlocked =  async (req, res, next) => {
     const userData = await userdatacollection.findOne({_id : req.session.userID});
     try{
