@@ -127,6 +127,17 @@ const controls = {
             res.redirect('/login');
         }
     },
+
+    deleteaddressget : async (req, res)=>{
+        try{
+            await addressdatacollection.findByIdAndDelete(req.params.id);
+            res.redirect('/profile/address');
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
+        }
+    },
 }
 
 module.exports = controls;

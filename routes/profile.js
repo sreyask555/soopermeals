@@ -38,4 +38,6 @@ router.post('/addaddress', profile.addaddresspost);
 router.get('/editaddress/:id', checkUserIsBlocked, profile.editaddressget);
 router.post('/editaddress/:id', profile.editaddresspost);
 
+router.get('/deleteaddress/:id', profile.deleteaddressget);
+
 module.exports = router;
