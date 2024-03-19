@@ -28,7 +28,10 @@ router.get('/', checkUserIsBlocked, profile.profileget);
 
 router.post('/editprofilename/:id', profile.editprofilenamepost);
 router.post('/editprofilenumber/:id', profile.editprofilenumberpost);
-
 router.post('/editprofilepassword/:id', profile.editprofilepasswordpost);
+
+router.get('/address',checkUserIsBlocked, profile.addressget);
+router.get('/addaddress',checkUserIsBlocked, profile.addaddressget);
+router.post('/addaddress/:id', profile.addaddresspost);
 
 module.exports = router;

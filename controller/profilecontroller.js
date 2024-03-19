@@ -1,5 +1,6 @@
 const userdatacollection = require('../models/userDB');
 const fooddatacollection = require('../models/foodDB');
+const addressdatacollection = require('../models/addressDB');
 
 const controls = {
     profileget : async (req, res)=>{
@@ -43,6 +44,51 @@ const controls = {
                 await userdatacollection.findByIdAndUpdate(req.params.id, {userpassword : newpassword});
             }
             res.redirect('/profile');
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
+        }
+    },
+
+    addressget : async (req, res)=>{
+        try{
+            const userdata = await userdatacollection.findById(req.session.userID);
+            // finding all addresses for a user with userid(ObjectID)
+            const addressdata = await addressdatacollection.find({userid : req.session.userID});
+            res.render('useraddress', {addressdata, userdata});
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
+        }
+    },
+
+    addaddressget : async (req, res)=>{
+        try{
+            const userdata = await userdatacollection.findById(req.session.userID);
+            res.render('useraddaddress', {userdata});
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
+        }
+    },
+
+    addaddresspost : async (req, res)=>{
+        try{
+            const {firstname, lastname, housename, city, pincode, mobile} = req.body;
+            const newAddress = {
+                userid : req.params.id,
+                firstname : firstname,
+                lastname : lastname,
+                housename : housename,
+                city : city,
+                pincode : pincode,
+                mobile : mobile
+            }
+            await addressdatacollection.insertMany([newAddress]);
+            res.redirect('/profile/address');
         }
         catch(err){
             console.error(err);
