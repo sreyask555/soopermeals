@@ -40,6 +40,7 @@ body {
 } */
 .dropdown-menu {
     /* background-color: white; */
+    background-color: #F7F7F7;
     padding-left: 30px;
     /* background-color: transparent; */
     box-shadow: none;
