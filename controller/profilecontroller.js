@@ -95,11 +95,32 @@ const controls = {
             res.redirect('/login');
         }
     },
+
     editaddressget : async (req, res)=>{
         try{
             const userdata = await userdatacollection.findById(req.session.userID);
-            const addressdata = await addressdatacollection.findById(req.params.id)
-            res.render('useraddaddress', {userdata});
+            const addressdata = await addressdatacollection.findById(req.params.id);
+            res.render('usereditaddress', {userdata, addressdata});
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
+        }
+    },
+
+    editaddresspost : async (req, res)=>{
+        try{
+            const {firstname, lastname, housename, city, pincode, mobile} = req.body;
+            const editedAddress = {
+                firstname : firstname,
+                lastname : lastname,
+                housename : housename,
+                city : city,
+                pincode : pincode,
+                mobile : mobile
+            }
+            await addressdatacollection.findByIdAndUpdate(req.params.id, editedAddress);
+            res.redirect('/profile/address');
         }
         catch(err){
             console.error(err);

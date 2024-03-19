@@ -36,5 +36,6 @@ router.get('/addaddress',checkUserIsBlocked, profile.addaddressget);
 router.post('/addaddress', profile.addaddresspost);
 
 router.get('/editaddress/:id', checkUserIsBlocked, profile.editaddressget);
+router.post('/editaddress/:id', profile.editaddresspost);
 
 module.exports = router;
