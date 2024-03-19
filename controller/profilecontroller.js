@@ -79,7 +79,7 @@ const controls = {
         try{
             const {firstname, lastname, housename, city, pincode, mobile} = req.body;
             const newAddress = {
-                userid : req.params.id,
+                userid : req.session.userID,
                 firstname : firstname,
                 lastname : lastname,
                 housename : housename,
@@ -89,6 +89,17 @@ const controls = {
             }
             await addressdatacollection.insertMany([newAddress]);
             res.redirect('/profile/address');
+        }
+        catch(err){
+            console.error(err);
+            res.redirect('/login');
+        }
+    },
+    editaddressget : async (req, res)=>{
+        try{
+            const userdata = await userdatacollection.findById(req.session.userID);
+            const addressdata = await addressdatacollection.findById(req.params.id)
+            res.render('useraddaddress', {userdata});
         }
         catch(err){
             console.error(err);
