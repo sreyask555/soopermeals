@@ -36,7 +36,7 @@ dotenv.config();
 app.use('/', userrouter);
 app.use('/admin', adminrouter);
 app.use('/profile', profilerouter);
-// app.use('/cart', cartrouter);
+app.use('/cart', cartrouter);
 // app.use('/order', orderrouter);
 
 // Load PORT
