@@ -71,26 +71,28 @@
             </thead>
 
             <tbody>
-                <% cartdata.forEach((cdata, index) => { %>
-                    <tr>
-                        <td><img src="<%= cdata.img[0] %>" alt="<%= cdata.product %>" style="max-width: 50px;"></td>
-                        <td><%= cdata.product %></td>
-                        <td>₹<%= cdata.price %></td>
-                        <td>
-                            <button class="btn btn-outline-secondary rounded-5" id="subBtn"
-                            onclick="subtractQuantity('<%= cdata._id %>', '<%= cdata.price %>', '<%= index %>')">-</button>
-
-                            <input type="text" class="quantityInput_<%= index %> text-center" value="<%= cdata.quantity %>" readonly style="width: 5%;;">
-
-                            <button class="btn btn-outline-secondary rounded-5" id="addBtn"
-                            onclick="addQuantity('<%= cdata._id %>', '<%= cdata.price %>', '<%= index %>')">+</button>
-                        </td>
-                        <td class="total_<%= index %>"><strong>₹<%= (cdata.price * cdata.quantity) %></strong></td>
-                        <!-- <td class="total_<%= index %>"><strong>₹<%= (cdata.price * cdata.quantity).toFixed(2) %></strong></td> -->
-                        <!-- <td><a href="/cart/remove/<%= cdata._id %>" class="btn btn-sm btn-danger">Remove</a></td> -->
-                        <td><a onclick="openConfirmDeleteModal('/cart/remove/<%= cdata._id %>')" class="btn btn-sm btn-danger">Delete</a></td>
-                    </tr>
-                <% }) %>
+                <% if(cartdata){%>
+                    <% cartdata.forEach((cdata, index) => { %>
+                        <tr>
+                            <td><img src="<%= cdata.foodimage[0] %>" alt="<%= cdata.foodname %>" style="max-width: 50px;"></td>
+                            <td><%= cdata.foodname %></td>
+                            <td>₹<%= cdata.foodprice %></td>
+                            <td>
+                                <button class="btn btn-outline-secondary rounded-5" id="subBtn"
+                                onclick="subtractQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')">-</button>
+    
+                                <input type="text" class="quantityInput_<%= index %> text-center" value="<%= cdata.foodquantity %>" readonly style="width: 5%;;">
+    
+                                <button class="btn btn-outline-secondary rounded-5" id="addBtn"
+                                onclick="addQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')">+</button>
+                            </td>
+                            <td class="total_<%= index %>"><strong>₹<%= (cdata.foodprice * cdata.foodquantity) %></strong></td>
+                            <!-- <td class="total_<%= index %>"><strong>₹<%= (cdata.price * cdata.quantity).toFixed(2) %></strong></td> -->
+                            <!-- <td><a href="/cart/remove/<%= cdata._id %>" class="btn btn-sm btn-danger">Remove</a></td> -->
+                            <td><a onclick="openConfirmDeleteModal('/cart/remove/<%= cdata._id %>')" class="btn btn-sm btn-danger">Delete</a></td>
+                        </tr>
+                    <% }) %>
+                    <%} %>
             </tbody>
         </table>
 

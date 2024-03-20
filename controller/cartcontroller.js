@@ -26,6 +26,7 @@ const controls = {
             if(existingcartdata){
                 existingcartdata.foodquantity += 1;
                 await existingcartdata.save();
+                res.redirect('/cart');
             }
             else{
                 const newcartdata = new cartdatacollection({
@@ -37,7 +38,7 @@ const controls = {
                     foodquantity : 1,
                     foodimage : fooddata.foodimage[0]
                 });
-                console.log(cartdata);
+                console.log(newcartdata);
                 await newcartdata.save();
                 res.redirect('/cart');
             }
