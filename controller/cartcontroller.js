@@ -2,6 +2,7 @@ const userdatacollection = require('../models/userDB');
 const fooddatacollection = require('../models/foodDB');
 const addressdatacollection = require('../models/addressDB');
 const cartdatacollection = require('../models/cartDB');
+const orderdatacollection = require('../models/orderDB');
 
 const controls = {
     cartget : async (req, res)=>{
@@ -96,9 +97,25 @@ const controls = {
         const cartdata = await cartdatacollection.find({userid : req.session.userID});
         const currentdate = new Date();
 
-        for(let item of cartdata){
-            
+        for(let cdata of cartdata){
+            const neworder = new orderdatacollection({
+                userid : cdata.userid,
+                username : cdata.username,
+                foodid : cdata.foodid,
+                foodname : cdata.foodname,
+                foodquantity : cdata.foodquantity,
+                foodprice : cdata.foodprice,
+                // orderstatus : pending,(default)
+                orderdate : currentdate,
+                orderaddress : req.body.selectedAddress,
+                orderpaymentmode : req.body.paymentMethod
+            });
+            console.log(neworder);
+            await neworder.save();
         }
+
+        await cartdatacollection.deleteMany({userid : req.session.userID});
+        res.render('userorderconfirm');
     }
 }
 
