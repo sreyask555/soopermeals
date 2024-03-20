@@ -58,6 +58,7 @@
 
       <h3 class="mb-4">My Cart</h3>
 
+      <% if(cartdata.length>0){%>
       <table class="table table-striped overflow-hidden rounded text-center">
             <thead>
                 <tr class="table-dark">
@@ -71,7 +72,7 @@
             </thead>
 
             <tbody>
-                <% if(cartdata){%>
+                
                     <% cartdata.forEach((cdata, index) => { %>
                         <tr>
                             <td><img src="<%= cdata.foodimage[0] %>" alt="<%= cdata.foodname %>" style="max-width: 50px;"></td>
@@ -90,13 +91,16 @@
                             <td><a onclick="openConfirmDeleteModal('/cart/removefromcart/<%= cdata._id %>')" class="btn btn-sm btn-danger">Delete</a></td>
                         </tr>
                     <% }) %>
-                    <%} %>
             </tbody>
         </table>
 
         <div class="text-center mt-4">
             <a href="/cart/checkout" class="btn btn-success btn-md">Proceed to Checkout</a>
         </div>
+        <%}else { %>
+            <!-- No Order with Home Button -->
+            <p>No order found. Kindly <a href="/home" class="btn btn-warning fw-semibold">Order Something</a> to continue.</p>
+        <% } %>
 
       <!-- Confirm Modal -->
         <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
