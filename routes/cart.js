@@ -25,4 +25,6 @@ const checkUserIsBlocked =  async (req, res, next) => {
 // Cart Management
 router.get('/', checkUserIsBlocked, cart.cartget);
 
+router.get('/addproduct/:id', checkUserIsBlocked, cart.addtocartget);
+
 module.exports = router;
