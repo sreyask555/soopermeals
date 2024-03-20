@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const cart = require('../controller/cartcontroller');
-const cartdatacollection = require('../models/cartDB');
+const userdatacollection = require('../models/userDB');
 
 // Middleware for user auth and block status
 const checkUserIsBlocked =  async (req, res, next) => {
@@ -21,5 +21,8 @@ const checkUserIsBlocked =  async (req, res, next) => {
         res.redirect('/login');
     }
 }
+
+// Cart Management
+router.get('/', checkUserIsBlocked, cart.cartget);
 
 module.exports = router;
