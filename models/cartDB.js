@@ -12,23 +12,23 @@ const CartDataSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    productid : {
+    foodid : {
         type : ObjectId,
         required : true
     },
-    productname : {
+    foodname : {
         type : String,
         required : true
     },
-    productprice : {
+    foodprice : {
         type : String,
         required : true
     },
-    productquantity : {
+    foodquantity : {
         type : String,
         required : true
     },
-    productimage : {
+    foodimage : {
         type : [String],
         required : true
     }
