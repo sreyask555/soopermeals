@@ -78,17 +78,15 @@
                             <td><%= cdata.foodname %></td>
                             <td>₹<%= cdata.foodprice %></td>
                             <td>
-                                <button class="btn btn-outline-secondary rounded-5" id="subBtn"
-                                onclick="subtractQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')">-</button>
+                                <button class="btn btn-outline-secondary rounded-3" id="subBtn"
+                                onclick="subtractQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')"><strong>-</strong></button>
     
                                 <input type="text" class="quantityInput_<%= index %> text-center" value="<%= cdata.foodquantity %>" readonly style="width: 5%;;">
     
-                                <button class="btn btn-outline-secondary rounded-5" id="addBtn"
-                                onclick="addQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')">+</button>
+                                <button class="btn btn-outline-secondary rounded-3" id="addBtn"
+                                onclick="addQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')"><strong>+</strong></button>
                             </td>
-                            <td class="total_<%= index %>"><strong>₹<%= (cdata.foodprice * cdata.foodquantity) %></strong></td>
-                            <!-- <td class="total_<%= index %>"><strong>₹<%= (cdata.price * cdata.quantity).toFixed(2) %></strong></td> -->
-                            <!-- <td><a href="/cart/remove/<%= cdata._id %>" class="btn btn-sm btn-danger">Remove</a></td> -->
+                            <td class="total_<%= index %>"><strong>₹ <%= (cdata.foodprice * cdata.foodquantity) %></strong></td>
                             <td><a onclick="openConfirmDeleteModal('/cart/remove/<%= cdata._id %>')" class="btn btn-sm btn-danger">Delete</a></td>
                         </tr>
                     <% }) %>
@@ -127,15 +125,53 @@
     <!-- Copyright -->
   </footer>
 
-    <!-- Modal JQuery-->
     <script>
+        // Modal Jquery
         function openConfirmDeleteModal(url) {
             $('#confirmDeleteModal').modal('show');
             $('#confirmDeleteBtn').click(()=>{
                 window.location.href = url;
             });
         }
+
+        // Add Quantity
+        function addQuantity(cartid, foodprice, index) {
+            fetch(`/cart/addquantity/${cartid}`)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    updateQuantityAndTotal(data.updateQuantity, foodprice, index);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+
+        // Remove Quantity
+        function subtractQuantity(cartid, foodprice, index) {
+            fetch(`/cart/removequantity/${cartid}`)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    updateQuantityAndTotal(data.updateQuantity, foodprice, index);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+
+        // Update Quantity
+        function updateQuantityAndTotal(quantity, price, index) {
+            const quantityInput = document.querySelector(`.quantityInput_${index}`);
+            quantityInput.value = quantity;
+
+            const totalPrice = document.querySelector(`.total_${index}`);
+            totalPrice.innerHTML = `<strong>₹ ${price * quantity}</strong>`;
+        }
     </script>
+    
 
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

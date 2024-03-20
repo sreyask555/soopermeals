@@ -21,7 +21,6 @@ const controls = {
         try{
             const userdata = await userdatacollection.findById(req.session.userID);
             const fooddata = await fooddatacollection.findById(req.params.id);
-            // const existingcartitem = await cartdatacollection.findOneAndUpdate({userid : req.session.userID, foodid : fooddata._id}, {foodquantity : foodquantity+1});
             const existingcartdata = await cartdatacollection.findOne({userid : req.session.userID, foodid : fooddata._id});
             if(existingcartdata){
                 existingcartdata.foodquantity += 1;
@@ -46,6 +45,27 @@ const controls = {
         catch(err){
             console.error(err);
             res.redirect('/login');
+        }
+    },
+
+    addquantityget : async (req, res)=>{
+        const cartid = req.params.id;
+        const cartdata = await cartdatacollection.findById(cartid);
+        cartdata.foodquantity += 1;
+        await cartdata.save();
+        res.json({updateQuantity : cartdata.foodquantity});
+    },
+
+    removequantityget : async (req, res)=>{
+        const cartid = req.params.id;
+        const cartdata = await cartdatacollection.findById(cartid);
+        if(cartdata.foodquantity>1){
+            cartdata.foodquantity -= 1;
+            await cartdata.save();
+            res.json({updateQuantity : cartdata.foodquantity});
+        }
+        else{
+            res.redirect('/cart');
         }
     },
 }
