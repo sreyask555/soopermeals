@@ -105,7 +105,6 @@ const controls = {
                 foodname : cdata.foodname,
                 foodquantity : cdata.foodquantity,
                 foodprice : cdata.foodprice,
-                // orderstatus : pending,(default)
                 orderdate : currentdate,
                 orderaddress : req.body.selectedAddress,
                 orderpaymentmode : req.body.paymentMethod
