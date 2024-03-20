@@ -87,7 +87,7 @@
                                 onclick="addQuantity('<%= cdata._id %>', '<%= cdata.foodprice %>', '<%= index %>')"><strong>+</strong></button>
                             </td>
                             <td class="total_<%= index %>"><strong>₹ <%= (cdata.foodprice * cdata.foodquantity) %></strong></td>
-                            <td><a onclick="openConfirmDeleteModal('/cart/remove/<%= cdata._id %>')" class="btn btn-sm btn-danger">Delete</a></td>
+                            <td><a onclick="openConfirmDeleteModal('/cart/removefromcart/<%= cdata._id %>')" class="btn btn-sm btn-danger">Delete</a></td>
                         </tr>
                     <% }) %>
                     <%} %>

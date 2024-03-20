@@ -30,4 +30,6 @@ router.get('/addtocart/:id', checkUserIsBlocked, cart.addtocartget);
 router.get('/addquantity/:id', checkUserIsBlocked, cart.addquantityget);
 router.get('/removequantity/:id', checkUserIsBlocked, cart.removequantityget);
 
+router.get('/removefromcart/:id', checkUserIsBlocked, cart.removefromcartget);
+
 module.exports = router;

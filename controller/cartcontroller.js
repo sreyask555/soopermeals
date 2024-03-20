@@ -68,6 +68,11 @@ const controls = {
             res.redirect('/cart');
         }
     },
+
+    removefromcartget : async (req, res)=>{
+        await cartdatacollection.findByIdAndDelete(req.params.id);
+        res.redirect('/cart');
+    },
 }
 
 module.exports = controls;
