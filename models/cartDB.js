@@ -25,7 +25,7 @@ const CartDataSchema = new mongoose.Schema({
         required : true
     },
     foodquantity : {
-        type : String,
+        type : Number,
         required : true
     },
     foodimage : {
