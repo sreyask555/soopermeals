@@ -32,4 +32,7 @@ router.get('/removequantity/:id', checkUserIsBlocked, cart.removequantityget);
 
 router.get('/removefromcart/:id', checkUserIsBlocked, cart.removefromcartget);
 
+router.get('/checkout', checkUserIsBlocked, cart.checkoutget);
+router.post('/checkout', cart.checkoutpost);
+
 module.exports = router;

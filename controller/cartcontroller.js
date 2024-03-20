@@ -73,6 +73,33 @@ const controls = {
         await cartdatacollection.findByIdAndDelete(req.params.id);
         res.redirect('/cart');
     },
+
+    checkoutget : async (req, res)=>{
+        const userdata = await userdatacollection.findById(req.session.userID);
+        // finding all cart items by a user with userid(ObjectID)
+        const cartdata = await cartdatacollection.find({userid : req.session.userID});
+        const addressdata = await addressdatacollection.find({userid : req.session.userID});
+        if(cartdata){
+            let totalprice = 0;
+            cartdata.forEach((data)=>{
+                totalprice += data.foodquantity * data.foodprice;
+            });
+            const totalquantity = cartdata.reduce((total, item)=>total + item.foodquantity, 0);
+            res.render('usercheckout', {userdata, cartdata, addressdata, totalquantity, totalprice});
+        }
+        else{
+            res.redirect('/cart');
+        }
+    },
+
+    checkoutpost : async (req, res)=>{
+        const cartdata = await cartdatacollection.find({userid : req.session.userID});
+        const currentdate = new Date();
+
+        for(let item of cartdata){
+            
+        }
+    }
 }
 
 module.exports = controls;
