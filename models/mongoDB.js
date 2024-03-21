@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB-Node Connection
-mongoose.connect('mongodb://127.0.0.1:27017/soopermeal')
+mongoose.connect(`mongodb://${process.env.MONGO_SERVER}`)
 .then(()=>{
     console.log('MongoDB Connected for Schemas');
 })
