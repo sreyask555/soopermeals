@@ -60,7 +60,7 @@
             <th scope="col">Food</th>
             <th scope="col">Category</th>
             <th scope="col">Price</th>
-            <th scope="col">Rating</th>
+            <th scope="col">Stock</th>
             <th scope="col">Type</th>
             <th scope="col">Actions</th>
           </tr>
@@ -74,7 +74,7 @@
                     <td><%= data.foodname %></td>
                     <td><%= data.foodcategory %></td>
                     <td><%= data.foodprice %></td>
-                    <td><%= data.foodrating %></td>
+                    <td><%= data.foodstock %></td>
                     <td><%= data.foodtype %></td>
                     <td><a href="/admin/editproducts/<%= data._id %>" class="btn btn-sm btn-success mx-2">Update</a>
                         <a onclick="openConfirmDeleteModal('/admin/deleteproducts/<%= data._id%>')" class="btn btn-sm btn-danger">Delete</a>
