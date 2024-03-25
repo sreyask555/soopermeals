@@ -14,10 +14,6 @@ const FoodDataSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
-    // foodrating : {
-    //     type : Number,
-    //     required : true
-    // },
     foodtype : {
         type : String,
         required : true
@@ -29,6 +25,10 @@ const FoodDataSchema = new mongoose.Schema({
     foodimage : {
         type : [String],
         required : true
+    },
+    foodstock : {
+        type : Number,
+        default : 0
     },
     isListed : {
         type : Boolean,

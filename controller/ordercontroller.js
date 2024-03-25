@@ -13,6 +13,7 @@ const controls = {
         }
         catch(err){
             console.error(err);
+            res.redirect('/login');
         }
     }
 }
