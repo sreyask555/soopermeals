@@ -58,6 +58,7 @@
 
       <h3 class="mb-4">Order Confirmation</h3>
 
+      <% if(cartdata.length>0){%>
       <table class="table table-striped overflow-hidden rounded text-center">
             <thead>
                 <tr class="table-dark">
@@ -68,15 +69,13 @@
             </thead>
 
             <tbody>
-                <% if(cartdata){%>
                     <% cartdata.forEach((cdata, index) => { %>
                         <tr>
                             <td><%= cdata.foodname %></td>
                             <td><%= cdata.foodquantity %></td>
                             <td>₹ <%= cdata.foodprice * cdata.foodquantity %></td>
                         </tr>
-                    <% }) %>
-                    <%} %>
+                    <%}) %>
             </tbody>
         </table>
 
@@ -126,6 +125,10 @@
             <% } %>
 
     </div>
+    <%}else{%>
+        <!-- No Order with Home Button -->
+        <p>No order found. Kindly <a href="/home" class="btn btn-warning fw-semibold">Order Something</a> to continue.</p>
+        <%} %>
 
             <!-- Custom Alert Modal -->
             <div class="modal fade" id="customAlertModal" tabindex="-1" aria-labelledby="customAlertModalLabel" aria-hidden="true">
