@@ -225,6 +225,12 @@ const controls = {
         // await fooddatacollection.findByIdAndUpdate(foodid, {foodimage : fooddata.foodimage.splice(foodindex, 1)}); error as splice returns removed items and that stores to DB
     },
 
+    adminproductstogglelist : async (req, res)=>{
+        const fooddata = await fooddatacollection.findById(req.params.id);
+        await fooddatacollection.findByIdAndUpdate(req.params.id, {isListed : !fooddata.isListed});
+        res.redirect('/admin/products');
+    },
+
     admindeleteproductsget : async (req, res)=>{
         await fooddatacollection.findByIdAndDelete(req.params.id);
         res.redirect('/admin/products');

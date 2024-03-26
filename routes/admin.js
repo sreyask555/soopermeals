@@ -69,6 +69,8 @@ router.post('/editproducts/:id', multerImageUpload, admin.admineditproductspost)
 
 router.post('/removeImagefetchAPI', admin.adminremoveImagefetchAPI);
 
+router.get('/producttogglelist/:id', admin.adminproductstogglelist)
+
 router.get('/deleteproducts/:id', admin.admindeleteproductsget);
 
 module.exports = router;
