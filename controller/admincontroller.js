@@ -160,6 +160,7 @@ const controls = {
             // foodrating : req.body.foodrating,
             foodtype : req.body.foodtype,
             fooddescription : req.body.fooddescription,
+            foodstock : req.body.foodstock,
             foodimage : req.files.map(file => file.path.substring(6))
         }
         console.log(fooddata);
@@ -197,6 +198,7 @@ const controls = {
             // foodrating : req.body.foodrating,
             foodtype : req.body.foodtype,
             fooddescription : req.body.fooddescription,
+            foodstock : req.body.foodstock,
             // concatenating old images with new images
             foodimage : [...currentdata.foodimage, ...req.files.map(file => file.path.substring(6))]
         }
