@@ -6,7 +6,7 @@ const controls = {
     profileget : async (req, res)=>{
         try{
             const userdata = await userdatacollection.findById(req.session.userID);
-            res.render('userprofile', {userdata});
+            res.render('userprofile', {userdata, passwordchanged : null});
         }
         catch(err){
             console.error(err);
@@ -42,8 +42,12 @@ const controls = {
             const {currentpassword, newpassword} = req.body;
             if(userdata.userpassword == currentpassword){
                 await userdatacollection.findByIdAndUpdate(req.params.id, {userpassword : newpassword});
+                res.render('userprofile', {userdata, passwordchanged : true});
             }
-            res.redirect('/profile');
+            else{
+                res.render('userprofile', {userdata, passwordchanged : false});
+            }
+            // res.redirect('/profile');
         }
         catch(err){
             console.error(err);
