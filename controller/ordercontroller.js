@@ -23,6 +23,7 @@ const controls = {
     },
 
     cancelorderget : async (req, res)=>{
+        // wallet should work ifonlyif user is cancelling order
         await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : 'Cancelled'});
         res.redirect('/order');
     },
