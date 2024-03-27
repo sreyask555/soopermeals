@@ -2,6 +2,8 @@ const admindatacollection = require('../models/adminDB');
 const userdatacollection = require('../models/userDB');
 const categorydatacollection = require('../models/categoryDB');
 const fooddatacollection = require('../models/foodDB');
+const orderdatacollection =  require('../models/orderDB');
+const addressdatacollection = require('../models/addressDB');
 
 const controls = {
     adminloginget : (req, res)=>{
@@ -234,6 +236,13 @@ const controls = {
     admindeleteproductsget : async (req, res)=>{
         await fooddatacollection.findByIdAndDelete(req.params.id);
         res.redirect('/admin/products');
+    },
+
+    adminorderget : async (req, res)=>{
+        const orderdata = await orderdatacollection.find().sort({orderdate : -1});
+        // const distinctorderdates = await orderdatacollection.aggregate([{$group : {_id : '$orderdate'}}, {$sort : {_id : -1}}, {$project : {_id : 0, orderdate : '$_id'}}]);
+
+        res.render('adminorder', {orderdata});
     },
 }
 

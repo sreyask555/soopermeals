@@ -73,4 +73,7 @@ router.get('/producttogglelist/:id', admin.adminproductstogglelist)
 
 router.get('/deleteproducts/:id', admin.admindeleteproductsget);
 
+// Order Management
+router.get('/order', admin.adminorderget);
+
 module.exports = router;

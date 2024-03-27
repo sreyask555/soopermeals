@@ -38,7 +38,7 @@ const OrderDataSchema = new mongoose.Schema({
         required : true
     },
     orderaddress : {
-        type : String,
+        type : ObjectId,
         required : true
     },
     orderpaymentmode : {
