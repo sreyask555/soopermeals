@@ -25,4 +25,6 @@ const checkUserIsBlocked =  async (req, res, next) => {
 // Order Management
 router.get('/', checkUserIsBlocked, order.orderget)
 
+router.get('/cancelorder/:id', checkUserIsBlocked, order.cancelorderget);
+
 module.exports = router;

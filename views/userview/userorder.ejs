@@ -116,14 +116,24 @@
                                                                     <td><%= odata.foodname %></td>
                                                                     <td>₹<%= odata.foodprice * odata.foodquantity %></td>
                                                                     <td><%= odata.foodquantity %></td>
-                                                                    <td id="status<%= index %>"><%= odata.orderstatus %></td>
+                                                                    <td>
+                                                                        <% if (odata.orderstatus == 'Pending') { %>
+                                                                            <span class="text-secondary fw-medium">Pending</span>
+                                                                        <% } else if(odata.orderstatus == 'Cancelled') { %>
+                                                                            <span class="text-danger fw-medium">Cancelled</span>
+                                                                            <% } else if(odata.orderstatus == 'Accepted') {%>
+                                                                                <span class="text-success fw-medium">Accepted</span>
+                                                                                <%} %>
+                                                                    </td>
                                                                     <!-- <td><%= odata.orderdate.toLocaleString() %></td> -->
-                                                                    <td id="actions<%= index %>">
-                                                                        <% if (odata.orderstatus !== "Cancelled") { %>
-                                                                            <button class="btn btn-danger btn-sm cancel-button" onclick="openConfirmCancelModal('<%= odata._id %>', '<%= index %>')">Cancel Order</button>
-                                                                        <% } else { %>
-                                                                            <div class="canceled-message">Order Cancelled</div>
-                                                                        <% } %>
+                                                                    <td>
+                                                                        <% if (odata.orderstatus == 'Pending') { %>
+                                                                            <button class="btn btn-danger btn-sm" onclick="openConfirmCancelModal('/order/cancelorder/<%= odata._id %>')">Cancel Order</button>
+                                                                        <% } else if(odata.orderstatus == 'Cancelled') { %>
+                                                                            <button class="btn btn-danger btn-sm" disabled>Cancel Order</button>
+                                                                            <% } else if(odata.orderstatus == 'Accepted') {%>
+                                                                                <button class="btn btn-danger btn-sm" disabled>Cancel Order</button>
+                                                                                <%} %>
                                                                     </td>
                                                                 </tr>
                                                             <%} %>

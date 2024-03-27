@@ -244,6 +244,11 @@ const controls = {
 
         res.render('adminorder', {orderdata});
     },
+
+    adminupdateorderpost : async (req, res)=>{
+        await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : req.body.orderstatus});
+        res.redirect('/admin/order');
+    },
 }
 
 module.exports = controls;

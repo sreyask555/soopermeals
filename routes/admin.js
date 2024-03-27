@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const admin = require('../controller/admincontroller');
+// authorization levels for multiple admins if any
 const admindatacollection = require('../models/adminDB');
 
 // Application Middlewares
@@ -73,7 +74,10 @@ router.get('/producttogglelist/:id', admin.adminproductstogglelist)
 
 router.get('/deleteproducts/:id', admin.admindeleteproductsget);
 
+// also we could use ordercontroller here so that order.adminorderget; MVC vs CLEAN
 // Order Management
 router.get('/order', admin.adminorderget);
+
+router.post('/updateorder/:id', admin.adminupdateorderpost);
 
 module.exports = router;

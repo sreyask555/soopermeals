@@ -88,25 +88,27 @@
                         <%}else if(odata.orderstatus == 'Accepted'){%>
                             <span class="text-success fw-medium">Accepted</span>
                             <%} %></td>
-                    <td class="d-flex justify-content-center gap-3">
-                        <form action="">
-                            <select class="form-select form-select" aria-label="Default select example">
-                                <% if(odata.orderstatus == 'Pending'){%>
-                                    <option value="Pending" selected>Pending</option>
-                                    <option value="Accepted">Accepted</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <%}else if(odata.orderstatus == 'Cancelled'){%>
-                                        <option value="Pending">Pending</option>
+                    <td>
+                        <form action="/admin/updateorder/<%= odata._id %>" method="POST" class="d-flex justify-content-center gap-3">
+                            <div>
+                                <select class="form-select form-select" name="orderstatus">
+                                    <% if(odata.orderstatus == 'Pending'){%>
+                                        <option value="Pending" selected>Pending</option>
                                         <option value="Accepted">Accepted</option>
-                                        <option selected value="Cancelled">Cancelled</option>
-                                        <%}else if(odata.orderstatus == 'Accepted'){%>
+                                        <option value="Cancelled">Cancelled</option>
+                                        <%}else if(odata.orderstatus == 'Cancelled'){%>
                                             <option value="Pending">Pending</option>
-                                            <option selected value="Accepted">Accepted</option>
-                                            <option value="Cancelled">Cancelled</option>
-                                            <%} %>
-                            </select>
+                                            <option value="Accepted">Accepted</option>
+                                            <option selected value="Cancelled">Cancelled</option>
+                                            <%}else if(odata.orderstatus == 'Accepted'){%>
+                                                <option value="Pending">Pending</option>
+                                                <option selected value="Accepted">Accepted</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                                <%} %>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Update Order</button>
                         </form>
-                        <a href="" class="btn btn-warning">Update Order</a>
                     </td>
                 </tr>
                 <%}) %>

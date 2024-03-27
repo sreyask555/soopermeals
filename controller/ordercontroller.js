@@ -20,7 +20,12 @@ const controls = {
             console.error(err);
             res.redirect('/login');
         }
-    }
+    },
+
+    cancelorderget : async (req, res)=>{
+        await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : 'Cancelled'});
+        res.redirect('/order');
+    },
 }
 
 module.exports = controls;
