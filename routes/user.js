@@ -30,6 +30,10 @@ router.get('/login', user.userloginget);
 router.post('/login', user.userloginpost);
 router.get('/signup', user.usersignupget);
 
+// Forgot Password
+router.post('/forgotpassword', user.userforgotpasswordpost);
+router.post('/forgotpasswordotp', user.userforgotpasswordotppost);
+
 // Logout
 router.get('/logout', user.userlogoutget)
 
@@ -40,8 +44,7 @@ router.post('/fetchAPI', user.userfetchapi);
 router.post('/otp',user.userotppost);
 
 // Home
-router.get('/home',checkUserIsBlocked, user.userhome);
-router.get('/home', user.userhome);
+router.get('/home', checkUserIsBlocked, user.userhome);
 
 // search-apis
 router.get('/searchFoodfetchAPI', user.usersearchFoodfetchAPI);
@@ -49,6 +52,6 @@ router.get('/filterFoodfetchAPI', user.userfilterFoodfetchAPI);
 router.get('/sortFoodfetchAPI', user.usersortFoodfetchAPI);
 
 // Product Details
-router.get('/productinfo/:id', user.usergetproductinfo);
+router.get('/productinfo/:id', checkUserIsBlocked, user.usergetproductinfo);
 
 module.exports = router;

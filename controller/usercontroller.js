@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 // Otp generation
 let otpgen; // checking generated OTP same as OTP entered
-let formData; // data collecting from signup page and saves data to DB if OTP is valid.
+let formData; // data collecting from forgotpass page and update data to DB if OTP is valid.
 const generateOtp = () => {
   return Math.floor(1000 + Math.random() * 9000).toString();
 };
@@ -44,7 +44,69 @@ const controls = {
             req.session.destroy();
             return;
         }
+        else if(req.session.passwordchanged){
+            res.render('userlogin', {passwordchanged : true});
+            req.session.destroy();
+            return;
+        }
+        else if(req.session.incorrectotp){
+            res.render('userlogin', {incorrectotp : true});
+            req.session.destroy();
+            return;
+        }
         res.render('userlogin');
+    },
+
+    userforgotpasswordpost : async (req, res)=>{
+        try{
+            formData = req.body;
+            console.log('fetchAPI data : ', formData);
+            const userdata = await userdatacollection.findOne({useremail : formData.email});
+
+            if(formData.email == userdata.useremail){
+                // OTP generation
+                otpgen = generateOtp();
+                console.log('OTP gen : '+ otpgen);
+                const mailOptions = {
+                from: "soopermeals-admin@gmail.com",
+                to: formData.email,
+                subject: "OTP Verification",
+                text: `Your OTP is: ${otpgen}. Please don't share your OTP with others`,
+                };
+
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log(`OTP error, Reason : ${error}`);
+                        res.json(formData);
+                    }
+                    else {
+                        console.log("OTP sent: " + info.response);
+                        res.json(formData);
+                    }
+                });
+            }
+            else{
+                res.redirect('/login');
+            }
+        }
+        catch(err){
+            console.error(err);
+            console.log(req.body);
+            // req.session.unauth = true;
+            res.redirect('/login');
+        }
+    },
+
+    userforgotpasswordotppost : async (req, res)=>{
+        if(otpgen == req.body.otp){
+            await userdatacollection.findOneAndUpdate({useremail : formData.email}, {userpassword : formData.password});
+            req.session.passwordchanged = true;
+            res.redirect('/login');
+        }
+        else{
+            req.session.incorrectotp = true;
+            res.redirect('/login');
+        }
     },
 
     userlogoutget : (req, res)=>{
@@ -145,6 +207,7 @@ const controls = {
         }
         else{
             req.session.incorrectotp = true;
+            // For autofilling on next immediate redirect
             req.session.formData = formData;
             res.redirect('/signup');
             // res.render('usersignup',{message : 'Incorrect OTP'})
