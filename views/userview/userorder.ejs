@@ -58,10 +58,96 @@
 
       <h3 class="mb-3">My Orders</h3>
 
-      <div class="container">
+      <div class="container pb-5 mb-5">
         <div class="table-container">
             <% if (orderdata.length > 0) { %>
-                <table class="table overflow-hidden rounded text-center">
+
+            <table class="table table-striped overflow-hidden rounded text-center">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col">#</th>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% distinctorderdates.forEach((datedata, index)=>{%>
+                        
+                        <tr class="fw-bold">
+                            <td><%= index+1 %></td>
+                            <td><%= new Date(datedata.orderdate).getTime() %></td>
+                            <td><%= datedata.orderdate.toLocaleString() %></td>
+                            <td><a href="#" class="btn btn-sm btn-success">Get Order Details</a></td>
+                        </tr>
+                        <tr>
+                            <td class="pb-5" colspan="4">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <strong>Order List</strong>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                        <!-- <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample"> -->
+                                            <div class="accordion-body">
+                                                <table class="table table-striped overflow-hidden rounded text-center">
+                                                    <thead>
+                                                        <tr class="table-secondary">
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Product Name</th>
+                                                            <th scope="col">Total Amount</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Status</th>
+                                                            <!-- <th scope="col">Order Date</th> -->
+                                                            <th scope="col">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% newIndex = 0 %>
+                                                        <% orderdata.forEach((odata, index) => { %>
+
+                                                            <!-- Comparing if both timestamps are equal,  -->
+                                                            <% if( new Date(odata.orderdate).getTime() == new Date(datedata.orderdate).getTime() ){%>
+                                                                <% newIndex += 1 %>
+                                                                <tr>
+                                                                    <td><%= newIndex %></td>
+                                                                    <td><%= odata.foodname %></td>
+                                                                    <td>₹<%= odata.foodprice * odata.foodquantity %></td>
+                                                                    <td><%= odata.foodquantity %></td>
+                                                                    <td id="status<%= index %>"><%= odata.orderstatus %></td>
+                                                                    <!-- <td><%= odata.orderdate.toLocaleString() %></td> -->
+                                                                    <td id="actions<%= index %>">
+                                                                        <% if (odata.orderstatus !== "Cancelled") { %>
+                                                                            <button class="btn btn-danger btn-sm cancel-button" onclick="openConfirmCancelModal('<%= odata._id %>', '<%= index %>')">Cancel Order</button>
+                                                                        <% } else { %>
+                                                                            <div class="canceled-message">Order Cancelled</div>
+                                                                        <% } %>
+                                                                    </td>
+                                                                </tr>
+                                                            <%} %>
+
+                                                        <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- <tr class="table-dark">
+                            <td colspan="5"></td>
+                        </tr> -->
+                    <%}) %>
+
+                </tbody>
+            </table>
+
+
+
+                <!-- <table class="table table-striped overflow-hidden rounded text-center">
                     <thead>
                         <tr class="table-dark">
                             <th scope="col">#</th>
@@ -84,7 +170,7 @@
                                 <td><%= odata.orderdate %></td>
                                 <td id="actions<%= index %>">
                                     <% if (odata.orderstatus !== "Cancelled") { %>
-                                        <button class="btn btn-danger btn-sm cancel-button" onclick="openConfirmDeleteModal('<%= odata._id %>', '<%= index %>')">Cancel Order</button>
+                                        <button class="btn btn-danger btn-sm cancel-button" onclick="openConfirmCancelModal('<%= odata._id %>', '<%= index %>')">Cancel Order</button>
                                     <% } else { %>
                                         <div class="canceled-message">Order Cancelled</div>
                                     <% } %>
@@ -92,7 +178,7 @@
                             </tr>
                         <% }); %>
                     </tbody>
-                </table>
+                </table> -->
             <% } else { %>
                 <div class="alert alert-info" role="alert">
                     No orders found.
@@ -101,18 +187,18 @@
         </div>
 
               <!-- Confirm Modal -->
-              <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+              <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm your action</h5>
+                            <h5 class="modal-title" id="confirmCancelModalLabel">Confirm your action</h5>
                         </div>
                         <div class="modal-body">
                             Are you sure you want to cancel this order?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
+                            <button type="button" class="btn btn-danger" id="confirmCancelBtn">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -134,9 +220,9 @@
 
   <script>
         // Modal Jquery
-        function openConfirmDeleteModal(url) {
-            $('#confirmDeleteModal').modal('show');
-            $('#confirmDeleteBtn').click(()=>{
+        function openConfirmCancelModal(url) {
+            $('#confirmCancelModal').modal('show');
+            $('#confirmCancelBtn').click(()=>{
                 window.location.href = url;
             });
         }

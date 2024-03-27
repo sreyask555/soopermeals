@@ -4,12 +4,17 @@ const addressdatacollection = require('../models/addressDB');
 const cartdatacollection = require('../models/cartDB');
 const orderdatacollection = require('../models/orderDB');
 
+const mongoose = require('mongoose')
+const {Schema, ObjectId} = mongoose;
+
 const controls = {
     orderget : async (req, res)=>{
         try{
             const userdata = await userdatacollection.findById(req.session.userID);
             const orderdata = await orderdatacollection.find({userid : req.session.userID});
-            res.render('userorder', {userdata, orderdata})
+            // const distinctorderdates = await orderdatacollection.find({userid : req.session.userID}).distinct('orderdate'); //sort and distinct doesnt work simultaneously. So needs aggregation pipe.
+            const distinctorderdates = await orderdatacollection.aggregate([{$match : {userid : new mongoose.Types.ObjectId(`${req.session.userID}`)}}, {$group : {_id : '$orderdate'}}, {$sort : {_id : -1}}, {$project : {_id : 0, orderdate : '$_id'}}]);
+            res.render('userorder', {userdata, orderdata, distinctorderdates});
         }
         catch(err){
             console.error(err);
