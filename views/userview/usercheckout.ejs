@@ -100,7 +100,7 @@
                     </div>
 
                     <!-- Payment Options Box -->
-                    <div class="payment-box">
+                    <div class="payment-box d-flex flex-column">
                         <h5>Payment Options</h5>
                         <label for="paymentMethod">Select Payment Method</label>
                         <select class="form-select mb-4" id="paymentMethod" name="paymentMethod">
@@ -110,7 +110,8 @@
                             <option value="Cash On Delivery">Razorpay (Online)</option>
                         </select>
                         <!-- Additional information -->
-                        <strong class="total-price">Total Price: ₹ <%= totalprice.toFixed(2) %></strong>
+                        <span class="mb-2 fw-semibold">Delivery : ₹ 20.00</span>
+                        <strong class="total-price">Total Price : ₹ <%= (totalprice+20).toFixed(2) %></strong>
                     </div>
                 </div>
 
