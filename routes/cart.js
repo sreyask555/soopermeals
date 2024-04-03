@@ -24,13 +24,15 @@ const checkUserIsBlocked =  async (req, res, next) => {
 
 // Cart Management
 router.get('/', checkUserIsBlocked, cart.cartget);
-
 router.get('/addtocart/:id', checkUserIsBlocked, cart.addtocartget);
-
 router.get('/addquantity/:id', checkUserIsBlocked, cart.addquantityget);
 router.get('/removequantity/:id', checkUserIsBlocked, cart.removequantityget);
-
 router.get('/removefromcart/:id', checkUserIsBlocked, cart.removefromcartget);
+
+// wishlist
+router.get('/wishlist', checkUserIsBlocked, cart.wishlistget);
+router.get('/addtowishlist/:id', checkUserIsBlocked, cart.addtowishlistget);
+router.get('/removefromwishlist/:id', checkUserIsBlocked, cart.removefromwishlistget);
 
 router.get('/checkout', checkUserIsBlocked, cart.checkoutget);
 router.post('/checkout', cart.checkoutpost);
