@@ -70,7 +70,7 @@
     <div class="main-banner container-fluid">
         <div class="row">
             <div class="gradient-rect">
-              <h1>Hungry <%= userdata.username.slice(0, userdata.username.indexOf(' ')) %>? Order your SooperMeals now :)</h1>
+              <h1>Hungry <%= userdata.username.slice(0, userdata.username.indexOf(' ') == -1 ? undefined : userdata.username.indexOf(' '))%> ? Order your SooperMeals now :)</h1>
               <!-- <h1>Hungry User? Order your SooperMeals now :)</h1> -->
               <p class="fs-3">Find the best soopermeal near you</p>
             </div>
