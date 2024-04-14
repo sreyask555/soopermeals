@@ -22,6 +22,13 @@ const controls = {
         }
     },
 
+    orderdetailsget : async (req, res)=>{
+        const userdata = await userdatacollection.findById(req.session.userID);
+        const orderdata = await orderdatacollection.find({orderdate : req.params.id});
+        const addressdata = await addressdatacollection.findById(orderdata[0].orderaddress);
+        res.render('userorderdetails', {userdata, orderdata, addressdata});
+    },
+
     cancelorderget : async (req, res)=>{
         // wallet should work ifonlyif user is cancelling order
         await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : 'Cancelled'});

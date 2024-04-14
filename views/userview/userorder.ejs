@@ -61,7 +61,7 @@
       <div class="container pb-5 mb-5">
         <div class="table-container">
             <% if (orderdata.length > 0) { %>
-
+                <% distinctorderdates.forEach((datedata, index)=>{%>
             <table class="table table-striped overflow-hidden rounded text-center">
                 <thead>
                     <tr class="table-dark">
@@ -72,16 +72,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% distinctorderdates.forEach((datedata, index)=>{%>
+                    
                         
                         <tr class="fw-bold">
                             <td><%= index+1 %></td>
                             <td><%= new Date(datedata.orderdate).getTime() %></td>
                             <td><%= datedata.orderdate.toLocaleString() %></td>
-                            <td><a href="#" class="btn btn-sm btn-success">Get Order Details</a></td>
+                            <td><a href="/order/orderdetails/<%= new Date(datedata.orderdate).getTime() %>" class="btn btn-sm btn-success">Get Order Details</a></td>
                         </tr>
                         <tr>
-                            <td class="pb-5" colspan="4">
+                            <td class="pb-3" colspan="4">
                                 <div class="accordion" id="accordionExample">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
