@@ -2,3 +2,5 @@
 .env
 # node dependencies
 node_modules/
+# PDF's
+assets/invoice/
