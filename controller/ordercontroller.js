@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 
+// SSR - server side rendering ?
 const ejsRender = async (template, DBdata)=>{
     const filePath = path.join(__dirname, '../views/userview', `${template}.ejs`);
     const html = fs.readFileSync(filePath, 'utf-8');

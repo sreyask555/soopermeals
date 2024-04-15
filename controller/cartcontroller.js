@@ -132,7 +132,7 @@ const controls = {
         // forEach loop does not wait for asynchronous operations to complete, so by the time you try to access totalprice, the asynchronous operations inside the loop may not have finished, resulting in an incorrect value.
         const cartpromises = existingcartdata.map(async (cdata)=>{
             const fooddata = await fooddatacollection.findById(cdata.foodid);
-            if(fooddata.isListed && fooddata.foodstock>cdata.foodquantity){
+            if(fooddata.isListed && fooddata.foodstock>=cdata.foodquantity){
                 totalprice += cdata.foodquantity * cdata.foodprice;
             }
             else{
