@@ -58,7 +58,8 @@
 
       <div class="d-flex justify-content-between align-items-center">
         <h3 class="mb-3">Order Summary</h3>
-        <button class="btn btn-sm btn-dark">Get Invoice</button>
+        <!-- <a target="_blank" href="/order/invoice/<%= new Date(orderdata[0].orderdate).getTime() %>" class="btn btn-sm btn-dark">Get Invoice</a> -->
+        <a href="/order/invoice/<%= new Date(orderdata[0].orderdate).getTime() %>" class="btn btn-sm btn-dark">Get Invoice</a>
       </div>
 
       <div class="container pb-5 mb-5">
@@ -97,7 +98,7 @@
                             <td><%= odata.foodname %></td>
                             <td><%= odata.foodquantity %></td>
                             <td><%= odata.foodprice %></td>
-                            <th><%= odata.foodprice * odata.foodquantity %></th>
+                            <th>₹<%= odata.foodprice * odata.foodquantity %></th>
                         </tr>
                         <%}) %>
                 </tbody>

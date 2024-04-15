@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SooperMeals</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h2>SooperMeals Food Order - Summary and Receipt</h2>
+  <table>
+    <tr>
+      <th>Order ID</th>
+      <td><%= new Date(orderdata[0].orderdate).getTime() %></td>
+    </tr>
+    <tr>
+      <th>Order Time</th>
+      <td><%= orderdata[0].orderdate.toLocaleString() %></td>
+    </tr>
+    <tr>
+      <th>Customer Name</th>
+      <td><%= addressdata.firstname + ' ' + addressdata.lastname %></td>
+    </tr>
+    <tr>
+      <th>Delivery Address</th>
+      <td><%= addressdata.housename + ', ' + addressdata.city + ', ' + addressdata.city + ', ' + addressdata.pincode %></td>
+    </tr>
+    <tr>
+      <th>Contact Information</th>
+      <td><%= addressdata.mobile %></td>
+    </tr>
+    <tr>
+      <th>Ordered From</th>
+      <td>TVM Cloud Kitchen, Opposite MLA Hostel, Palayam, Trivandrum</td>
+    </tr>
+  </table>
+
+  <h3>Order Details</h3>
+  <table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% total_amount = 0 %>
+        <% orderdata.forEach((odata, index)=>{%>
+            <tr>
+                <td><%= index+1 %></td>
+                <td><%= odata.foodname %></td>
+                <td><%= odata.foodquantity %></td>
+                <td><%= odata.foodprice %></td>
+                <td>₹<%= odata.foodprice * odata.foodquantity %> (incl. taxes)</td>
+            </tr>
+            <% total_amount += (odata.foodprice * odata.foodquantity) %>
+            <%}) %>
+    </tbody>
+  </table>
+
+  <h2>Charges</h2>
+  <table>
+    <tr>
+      <th>Delivery charge subtotal</th>
+      <td>₹15</td>
+    </tr>
+    <tr>
+      <th>Restaurant Packaging Charges</th>
+      <td>₹5</td>
+    </tr>
+    <tr>
+      <th>Platform fee</th>
+      <td>₹0 (free)</td>
+    </tr>
+    <!-- <tr>
+      <th>Coupon - (SNACKS)</th>
+      <td>(₹120)</td>
+    </tr> -->
+    <tr>
+      <th>Total Amout Paid</th>
+      <th>₹<%= total_amount + 15 + 5 %></th>
+    </tr>
+  </table>
+
+  <h3>Terms & Conditions</h3>
+  <ol>
+    <li>W.e.f. 1 January 2024, for items ordered where SooperMeals is obligated to raise a tax invoice on behalf of the Restaurant, it can be downloaded from the link provided in email containing order summary. For other products in the order that are not covered in SooperMeals issued tax invoice, tax invoice will be provided by the Restaurant Partner directly.</li>
+    <li>The delivery charge and delivery surge are collected by SooperMeals on behalf of the person or entity undertaking delivery of this order.</li>
+    <li>If you have any issues or queries in respect of your order, please contact the customer chat support through SooperMeals platform.</li>
+    <li>In case you need to get more information about restaurant's FSSAI status, please visit https://foscos.fssai.gov.in/ and use the FBO search option with the FSSAI License / Registration number.</li>
+    <li>Please note that we do not have a customer care phone number and we never ask for any bank account details such as CVV, account number, UPI Pin etc. across our other support channels. For your safety please do not share these details with anyone over any medium.</li>
+  </ol>
+
+  <p>TVM cloud Kitchen<br>
+  Lic. No. 1234567890</p>
+</body>
+</html>

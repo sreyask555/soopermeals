@@ -7,6 +7,17 @@ const orderdatacollection = require('../models/orderDB');
 const mongoose = require('mongoose')
 const {Schema, ObjectId} = mongoose;
 
+const puppeteer = require('puppeteer');
+const path = require('path');
+const fs = require('fs');
+const ejs = require('ejs');
+
+const ejsRender = async (template, DBdata)=>{
+    const filePath = path.join(__dirname, '../views/userview', `${template}.ejs`);
+    const html = fs.readFileSync(filePath, 'utf-8');
+    return ejs.compile(html)(DBdata);
+}
+
 const controls = {
     orderget : async (req, res)=>{
         try{
@@ -33,6 +44,57 @@ const controls = {
         // wallet should work ifonlyif user is cancelling order
         await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : 'Cancelled'});
         res.redirect('/order');
+    },
+
+    invoiceget : async (req, res)=>{
+        try{
+            const orderdata = await orderdatacollection.find({orderdate : req.params.id});
+            const addressdata = await addressdatacollection.findById(orderdata[0].orderaddress);
+            // res.render('userinvoice', {orderdata, addressdata});
+
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+
+            // to create pdf from web-renders
+            // localhost://order/invoice/12344556
+            // await page.goto(`${req.protocol}://${req.get('host')}`+'/order/invoice'+`/${req.params.id}`, {
+            //     waitUntil : 'networkidle2'
+            // });
+
+            // rendering ejs template with DB data
+            const content = await ejsRender('userinvoice', {orderdata, addressdata})
+            await page.setContent(content);
+
+            // generating pdf data
+            const pdfGen = await page.pdf({
+                path : `${path.join(__dirname, '../assets/invoice', `OrderID_${req.params.id}.pdf`)}`,
+                format : 'A4',
+                printBackground : true
+            })
+
+            console.log('PDF GENERATED');
+            await browser.close();
+
+            // pdf-stored path
+            const pdfURL = path.join(__dirname, '../assets/invoice', `OrderID_${req.params.id}.pdf`);
+
+            // View PDF - slow, idk
+            // res.set({
+            //     'Content-Type' : 'application/pdf',
+            //     'Content-Length' : pdfGen.length
+            // })
+            // res.sendFile(pdfURL);
+
+            // Download PDF - fast(maybe same system)
+            res.download(pdfURL, (err)=>{
+                if(err){
+                    console.error(err);
+                }
+            })
+        }
+        catch(err){
+            console.error(err);
+        }
     },
 }
 

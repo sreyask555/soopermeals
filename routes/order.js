@@ -29,4 +29,7 @@ router.get('/orderdetails/:id', checkUserIsBlocked, order.orderdetailsget);
 
 router.get('/cancelorder/:id', checkUserIsBlocked, order.cancelorderget);
 
+// Invoice Generation
+router.get('/invoice/:id', checkUserIsBlocked, order.invoiceget);
+
 module.exports = router;
