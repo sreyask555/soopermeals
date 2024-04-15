@@ -97,9 +97,9 @@
                                         <option value="Accepted">Accepted</option>
                                         <option value="Cancelled">Cancelled</option>
                                         <%}else if(odata.orderstatus == 'Cancelled'){%>
-                                            <option value="Pending">Pending</option>
-                                            <option value="Accepted">Accepted</option>
-                                            <option selected value="Cancelled">Cancelled</option>
+                                            <!-- <option value="Pending">Pending</option>
+                                            <option value="Accepted">Accepted</option> -->
+                                            <option selected disabled value="Cancelled">Cancelled</option>
                                             <%}else if(odata.orderstatus == 'Accepted'){%>
                                                 <option value="Pending">Pending</option>
                                                 <option selected value="Accepted">Accepted</option>
