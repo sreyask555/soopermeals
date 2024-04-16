@@ -4,6 +4,7 @@ const categorydatacollection = require('../models/categoryDB');
 const fooddatacollection = require('../models/foodDB');
 const orderdatacollection =  require('../models/orderDB');
 const addressdatacollection = require('../models/addressDB');
+const walletdatacollection = require('../models/walletDB');
 
 const controls = {
     adminloginget : (req, res)=>{
@@ -247,6 +248,11 @@ const controls = {
 
     adminupdateorderpost : async (req, res)=>{
         await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : req.body.orderstatus});
+        const orderdata = await orderdatacollection.findById(req.params.id);
+        if(req.body.orderstatus == 'Cancelled' && orderdata.orderpaymentmode == 'WALLET'){
+            // bring a logic to clean the 20 rupees to wallet or NOT..
+            await walletdatacollection.updateOne({userid : req.session.userID}, {$inc:{walletamount : (orderdata.foodquantity * orderdata.foodprice)}});
+        }
         res.redirect('/admin/order');
     },
 }

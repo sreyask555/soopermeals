@@ -3,6 +3,7 @@ const fooddatacollection = require('../models/foodDB');
 const addressdatacollection = require('../models/addressDB');
 const cartdatacollection = require('../models/cartDB');
 const orderdatacollection = require('../models/orderDB');
+const walletdatacollection = require('../models/walletDB');
 
 const mongoose = require('mongoose')
 const {Schema, ObjectId} = mongoose;
@@ -42,8 +43,12 @@ const controls = {
     },
 
     cancelorderget : async (req, res)=>{
-        // wallet should work ifonlyif user is cancelling order
         await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : 'Cancelled'});
+        const orderdata = await orderdatacollection.findById(req.params.id);
+        if(orderdata.orderpaymentmode == 'WALLET'){
+            // bring a logic to clean the 20 rupees to wallet or NOT..
+            await walletdatacollection.updateOne({userid : req.session.userID}, {$inc:{walletamount : (orderdata.foodquantity * orderdata.foodprice)}});
+        }
         res.redirect('/order');
     },
 
