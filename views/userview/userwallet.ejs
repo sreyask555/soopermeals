@@ -72,17 +72,31 @@
                     <tr class="table-dark">
                         <th scope="col">#</th>
                         <th scope="col">Order ID</th>
+                        <th scope="col">Order Time</th>
+                        <th scope="col">Payment Mode</th>
                         <th scope="col">Transaction Type</th>
                         <th scope="col">Transaction Amount</th>
                     </tr>
-                </thead>
+                </thead>    
                 <tbody>
                     <% orderdata.forEach((odata, index)=>{%>
+                        <% if(odata.orderstatus == 'Cancelled'){%>
+                            <tr>
+                                <th>#</th>
+                                <th><%= new Date(odata.orderdate).getTime() %></th>
+                                <th><%= odata.orderdate.toLocaleString() %></th>
+                                <th><%= odata.orderpaymentmode %></th>
+                                <td class="text-success fw-semibold">Order Cancelled</td>
+                                <th>+<%= (odata.foodprice * odata.foodquantity) %></th>
+                            </tr>
+                            <%} %>
                         <tr>
-                            <th><%= index+1 %></th>
+                            <th>#</th>
                             <th><%= new Date(odata.orderdate).getTime() %></th>
-                            <td class="text-success fw-semibold">Order Placed</td>
-                            <th><%= (odata.foodprice * odata.foodquantity) + 20 %></th>
+                            <th><%= odata.orderdate.toLocaleString() %></th>
+                            <th><%= odata.orderpaymentmode %></th>
+                            <td class="text-danger fw-semibold">Order Placed</td>
+                            <th>-<%= (odata.foodprice * odata.foodquantity) + 20 %></th>
                         </tr>
                         <%}) %>
                 </tbody>

@@ -7,7 +7,7 @@ const controls = {
         try{
             const userdata = await userdatacollection.findById(req.session.userID);
             const walletdata = await walletdatacollection.find({userid : req.session.userID});
-            const orderdata = await orderdatacollection.find({orderpaymentmode : 'WALLET', userid : req.session.userID});
+            const orderdata = await orderdatacollection.find({orderpaymentmode : 'WALLET', userid : req.session.userID}).sort({orderdate : -1});
             res.render('userwallet', {userdata, walletdata, orderdata});
         }
         catch(err){
