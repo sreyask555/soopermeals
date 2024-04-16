@@ -11,6 +11,8 @@ const userrouter = require('./routes/user');
 const profilerouter = require('./routes/profile');
 const cartrouter = require('./routes/cart');
 const orderrouter = require('./routes/order');
+const walletrouter = require('./routes/wallet');
+const checkoutrouter = require('./routes/checkout');
 
 const app = express();
 
@@ -38,6 +40,8 @@ app.use('/admin', adminrouter);
 app.use('/profile', profilerouter);
 app.use('/cart', cartrouter);
 app.use('/order', orderrouter);
+app.use('/wallet', walletrouter);
+app.use('/checkout', checkoutrouter);
 
 // Load PORT
 const PORT = process.env.PORT;

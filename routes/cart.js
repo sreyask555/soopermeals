@@ -34,7 +34,4 @@ router.get('/wishlist', checkUserIsBlocked, cart.wishlistget);
 router.get('/addtowishlist/:id', checkUserIsBlocked, cart.addtowishlistget);
 router.get('/removefromwishlist/:id', checkUserIsBlocked, cart.removefromwishlistget);
 
-router.get('/checkout', checkUserIsBlocked, cart.checkoutget);
-router.post('/checkout', cart.checkoutpost);
-
 module.exports = router;
