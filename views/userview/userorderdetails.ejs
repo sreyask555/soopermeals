@@ -80,6 +80,10 @@
                 <label class="form-label">Delivery Address</label>
                 <input type="text" class="form-control fw-semibold" value="<%= addressdata.housename + ', ' + addressdata.city + ', ' + addressdata.city + ', ' + addressdata.pincode + ', ' + addressdata.mobile %>" disabled>
             </div>
+            <div class="mb-3">
+                <label class="form-label">Payment Mode</label>
+                <input type="text" class="form-control fw-semibold" value="<%= orderdata[0].orderpaymentmode %>" disabled>
+            </div>
 
             <table class="table table-striped overflow-hidden rounded text-center">
                 <thead>
@@ -92,6 +96,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <% total_amount = 0 %>
                     <% orderdata.forEach((odata, index)=>{%>
                         <tr>
                             <td><%= index+1 %></td>
@@ -100,7 +105,11 @@
                             <td><%= odata.foodprice %></td>
                             <th>₹<%= odata.foodprice * odata.foodquantity %></th>
                         </tr>
+                        <% total_amount += (odata.foodprice * odata.foodquantity) %>
                         <%}) %>
+                        <tr>
+                            <th colspan="5"> Total Amount : ₹<%= total_amount + 20 %> (incl. delivery charges and taxes)</th>
+                        </tr>
                 </tbody>
             </table>
         </div>
