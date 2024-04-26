@@ -73,7 +73,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Order ID</th>
                         <th scope="col">Order Time</th>
-                        <th scope="col">Payment Mode</th>
+                        <!-- <th scope="col">Payment Mode</th> -->
                         <th scope="col">Transaction Type</th>
                         <th scope="col">Transaction Amount</th>
                     </tr>
@@ -84,19 +84,19 @@
                             <tr>
                                 <th>#</th>
                                 <th><%= new Date(odata.orderdate).getTime() %></th>
-                                <th><%= odata.orderdate.toLocaleString() %></th>
-                                <th><%= odata.orderpaymentmode %></th>
-                                <td class="text-success fw-semibold">Order Cancelled</td>
-                                <th>+<%= (odata.foodprice * odata.foodquantity) %></th>
+                                <td class="fw-semibold"><%= odata.orderdate.toLocaleString() %></td>
+                                <!-- <th><%= odata.orderpaymentmode %></th> -->
+                                <td class="fw-semibold">Order Cancelled</td>
+                                <th class="text-success">+<%= (odata.foodprice * odata.foodquantity) %></th>
                             </tr>
                             <%} %>
                         <tr>
                             <th>#</th>
                             <th><%= new Date(odata.orderdate).getTime() %></th>
-                            <th><%= odata.orderdate.toLocaleString() %></th>
-                            <th><%= odata.orderpaymentmode %></th>
-                            <td class="text-danger fw-semibold">Order Placed</td>
-                            <th>-<%= (odata.foodprice * odata.foodquantity) + 20 %></th>
+                            <td class="fw-semibold"><%= odata.orderdate.toLocaleString() %></td>
+                            <!-- <th><%= odata.orderpaymentmode %></th> -->
+                            <td class="fw-semibold">Order Placed</td>
+                            <th class="text-danger">-<%= (odata.foodprice * odata.foodquantity) + 20 %></th>
                         </tr>
                         <%}) %>
                 </tbody>
