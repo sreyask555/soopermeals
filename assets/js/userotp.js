@@ -33,6 +33,9 @@ function toastIt(entry){
 // Form Validation
 sendOtpBtn.addEventListener('click', validateForm);
 function validateForm(){
+    $("#signup-form").submit(function(event){
+        event.preventDefault();
+    })
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}$/;
     if(name.value.trim() === ''){

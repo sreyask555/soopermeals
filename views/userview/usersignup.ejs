@@ -32,7 +32,7 @@
 
   <div class="col-lg-6 container mt-5 pb-3 border rounded-4 shadow">
 
-    <!-- <form id="mainForm" action="" method=""> -->
+    <form id="signup-form" class="needs-validation" novalidate>
       <div class="d-flex flex-column align-items-center text-center">  
         <h4 class="mb-3 mt-3">Register as new user</h4>
         <div class="col-lg-8 form-floating mb-4">
@@ -45,18 +45,24 @@
               placeholder="name" required>
               <%} %>
             <label for="nameInput">Name</label>
+            <div class="invalid-feedback fw-semibold">
+              Please provide a valid name
+            </div>
           </div>
         <div class="col-lg-8 form-floating mb-4">
 
               <% if(locals.formData){%>
                 <input name="number" type="text" class="form-control border rounded-3" id="numberInput"
-                placeholder="number" required value="<%= locals.formData.number%>">
+                placeholder="number" required value="<%= locals.formData.number%>" pattern="[0-9]{10}">
               <%}
               else{%>
                 <input name="number" type="text" class="form-control border rounded-3" id="numberInput"
-                placeholder="number" required>
+                placeholder="number" required pattern="[0-9]{10}">
                 <%} %>
             <label for="numberInput">Mobile Number</label>
+            <div class="invalid-feedback fw-semibold">
+              Please provide your 10 digit mobile number
+            </div>
           </div>
         <div class="col-lg-8 form-floating mb-4">
 
@@ -69,40 +75,55 @@
                 placeholder="name@example.com" required>
                 <%} %>
           <label for="emailInput">Email Address</label>
+          <div class="invalid-feedback fw-semibold">
+            Please provide a valid email address
+          </div>
           
         </div>
         <div class="col-lg-8 form-floating mb-4">
 
             <% if(locals.formData){%>
               <input name="password" type="password" class="form-control border rounded-3" id="passwordInput1"
-              placeholder="Password" required value="<%= locals.formData.password%>">
+              placeholder="Password" required value="<%= locals.formData.password%>" pattern="(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}">
               <%}
               else{%>
                 <input name="password" type="password" class="form-control border rounded-3" id="passwordInput1"
-                placeholder="Password" required>
+                placeholder="Password" required pattern="(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}">
                 <%} %>
           <label for="passwordInput">Password</label>
+          <div class="invalid-feedback fw-semibold">
+            Please provide a strong password
+          </div>
 
         </div>
         <div class="col-lg-8 form-floating mb-4">
 
             <% if(locals.formData){%>
               <input name="password" type="password" class="form-control border rounded-3" id="passwordInput2"
-              placeholder="Password" required value="<%= locals.formData.password%>">
+              placeholder="Password" required value="<%= locals.formData.password%>" pattern=".{3,}">
               <%}
               else{%>
                 <input name="password" type="password" class="form-control border rounded-3" id="passwordInput2"
-                placeholder="Password" required>
+                placeholder="Password" required pattern=".{3,}">
                 <%} %>
           <label for="passwordInput">Confirm Password</label>
+          <div class="invalid-feedback fw-semibold">
+            Enter same password again
+          </div>
 
         </div>
-        <button id="otp-send-btn" class="col-lg-4 btn btn-dark mb-3" type="button">Get OTP</button>
+        <!-- <button id="otp-send-btn" class="col-lg-4 btn btn-dark mb-3" type="button">Get OTP</button> -->
+        <button id="otp-send-btn" class="col-lg-4 btn btn-dark mb-3" type="submit">Get OTP</button>
         <!-- <button id="otp-send-btn" class="col-lg-4 btn btn-primary mb-3" type="button" data-bs-toggle="" data-bs-target="">Get OTP</button> -->
         <!-- <button id="otp-send-btn" class="col-lg-4 btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Get OTP</button> -->
 
       </div>
-    <!-- </form> -->
+
+      <div class="d-flex flex-column align-items-center text-center">
+        <h5 class="mb-3 mt-5">Already registered ? Login to continue</h5>
+        <a href="/login"><button class="btn btn-dark btn-sm mb-3" type="button">Login Instead</button></a>
+      </div>
+    </form>
 
             <!-- Modal -->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -140,7 +161,7 @@
     crossorigin="anonymous"></script>
   <!-- Root-JS -->
   <script src="/js/userotp.js"></script>
-  <!-- <script src="/js/global.js"></script> -->
+  <script src="/js/global.js"></script>
 </body>
 
 </html>
