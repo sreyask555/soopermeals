@@ -4,6 +4,7 @@ const cancelOtpBtn = document.querySelector('#otp-cancel-btn');
 const submitOtpBtn = document.querySelector('#otp-submit-btn');
 
 const timer = document.querySelector('#timer');
+const otpInput = document.querySelector('#otpInput');
 
 // flag varible for cancel-otp event 
 let reset = false;
@@ -36,9 +37,10 @@ function toastIt(entry){
 // Form Validation
 sendOtpBtn.addEventListener('click', validateForm);
 function validateForm(){
+    // preventing submission of signup-form on default btn-submit
     $("#signup-form").submit(function(event){
         event.preventDefault();
-    })
+    });
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}$/;
     if(name.value.trim() === ''){
@@ -57,8 +59,6 @@ function validateForm(){
         return toastIt('matching of passwords (Both passwords should match)')
     }
     else{
-        // sendOtpBtn.dataset.bsToggle = "modal";
-        // sendOtpBtn.dataset.bsTarget = "#staticBackdrop";
         $("#staticBackdrop").modal('show');
         reset = false;
         signupEnabler(59);
@@ -67,12 +67,23 @@ function validateForm(){
 
 // Resetting OTP timer and otp submit button disability
 cancelOtpBtn.addEventListener('click', () => {
-    // sendOtpBtn.dataset.bsToggle = "";
-    // sendOtpBtn.dataset.bsTarget = "";
-
-    submitOtpBtn.classList.remove('disabled');
     reset = true;
+
     timer.textContent = '';
+
+    // submitOtpBtn.setAttribute('type', 'submit');
+    submitOtpBtn.textContent = 'Submit';
+
+    otpInput.value = '';
+    otpInput.classList.remove('opacity-0');
+    otpInput.removeAttribute('readonly');
+})
+
+// Re-send-otp function is attached to submit-otp btn
+submitOtpBtn.addEventListener('click', () => {
+    if(submitOtpBtn.getAttribute('type') == 'button'){
+        
+    }
 })
 
 // Start OTP Timer and styling
@@ -91,9 +102,16 @@ function startOtpRunner(seconds){
 
                 if(seconds <= 0){
                     clearInterval(countdown);
+
                     timer.textContent = 'OTP expired';
                     timer.classList.add('text-danger');
-                    submitOtpBtn.classList.add('disabled');
+
+                    // submitOtpBtn.setAttribute('type', 'button');
+                    submitOtpBtn.textContent = 'Re-send OTP';
+
+                    otpInput.value = 'OTPRESEND';
+                    otpInput.classList.add('opacity-0');
+                    otpInput.setAttribute('readonly', true);
                 }
                 else{
                     seconds--;

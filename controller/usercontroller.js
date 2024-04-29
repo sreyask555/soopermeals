@@ -141,7 +141,12 @@ const controls = {
 
     usersignupget : (req, res)=>{
         if(req.session.incorrectotp){
-            res.render('usersignup', {incorrectotp : req.session.incorrectotp, formData : req.session.formData});
+            res.render('usersignup', {otp : 'incorrect', formData : req.session.formData});
+            req.session.destroy();
+            return;
+        }
+        else if(req.session.resendotp){
+            res.render('usersignup', {otp : 'resend', formData : req.session.formData});
             req.session.destroy();
             return;
         }
@@ -194,7 +199,8 @@ const controls = {
     },
 
     userotppost : async (req, res)=>{
-        if(otpgen == req.body.otp){
+        console.log(req.body)
+        if(req.body.otp == otpgen){
             const usersignupdata = {
                 username : formData.name,
                 usernumber : formData.number,
@@ -205,12 +211,17 @@ const controls = {
             req.session.signed = true;
             res.redirect('/login');
         }
+        else if(req.body.otp == 'OTPRESEND'){
+            req.session.resendotp = true;
+            // For autofilling on next immediate redirect
+            req.session.formData = formData;
+            res.redirect('/signup');
+        }
         else{
             req.session.incorrectotp = true;
             // For autofilling on next immediate redirect
             req.session.formData = formData;
             res.redirect('/signup');
-            // res.render('usersignup',{message : 'Incorrect OTP'})
         }
     },
   
