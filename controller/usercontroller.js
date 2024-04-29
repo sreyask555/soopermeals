@@ -162,7 +162,7 @@ const controls = {
             if(duplicatecheck){
                 // req.session.duplicate = true;
                 // console.log(req.session);
-                res.redirect('/login');
+                res.redirect('/login'); //fetchAPI -> .then(res.redirected), 
                 // res.render('userlogin');
             }
             else{
@@ -177,19 +177,19 @@ const controls = {
                 };
 
                 transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log(`OTP error, Reason : ${error}`);
-                    res.json(formData);
-                }
-                else {
-                    console.log("OTP sent: " + info.response);
-                    res.json(formData);
-                }
+                    if (error) {
+                        console.log(`OTP error, Reason : ${error}`);
+                        res.json(formData);
+                    }
+                    else {
+                        console.log("OTP sent: " + info.response);
+                        res.json(formData);
+                    }
                 });
             }
         }
         catch{
-                console.log('Some error happened at catch block.. Please look into catch block side - DEVELOPER PART')
+            console.log('Some error happened at catch block.. Please look into catch block side - DEVELOPER PART')
         }
     },
 

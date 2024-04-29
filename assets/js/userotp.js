@@ -4,7 +4,10 @@ const cancelOtpBtn = document.querySelector('#otp-cancel-btn');
 const submitOtpBtn = document.querySelector('#otp-submit-btn');
 
 const timer = document.querySelector('#timer');
+
+// flag varible for cancel-otp event 
 let reset = false;
+
 // sendOtpBtn.addEventListener('click', signupEnabler.bind(null, 59)); //binding because, direct passing will auto-run function at starting.
 
 // Input Fields
@@ -68,25 +71,28 @@ cancelOtpBtn.addEventListener('click', () => {
     // sendOtpBtn.dataset.bsTarget = "";
 
     submitOtpBtn.classList.remove('disabled');
-
     reset = true;
     timer.textContent = '';
 })
 
 // Start OTP Timer and styling
 function startOtpRunner(seconds){
+    // otp-expired state or a fresh-page state
     if(timer.textContent == 'OTP expired' || timer.textContent == ''){
             let countdown = setInterval(()=>{
+                // stop otp-running whenever otp-cancel event triggered
                 if(reset){
                     clearInterval(countdown);
                     return;
                 }
+
                 timer.classList.remove('text-danger');
                 timer.textContent = `Time Remaining : ${seconds} seconds`;
+
                 if(seconds <= 0){
                     clearInterval(countdown);
                     timer.textContent = 'OTP expired';
-                    timer.classList.add('text-danger')
+                    timer.classList.add('text-danger');
                     submitOtpBtn.classList.add('disabled');
                 }
                 else{
@@ -94,6 +100,9 @@ function startOtpRunner(seconds){
                 }
         }, 1000)
     }
+    // else{
+    //     // otp-running state
+    // }
 }
 
 
