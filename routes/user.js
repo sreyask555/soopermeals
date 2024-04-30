@@ -30,9 +30,10 @@ router.get('/login', user.userloginget);
 router.post('/login', user.userloginpost);
 router.get('/signup', user.usersignupget);
 
-// Forgot Password
+// Forgot Password (Mail validation, OTP validation, Password change event)
 router.post('/forgotpassword', user.userforgotpasswordpost);
 router.post('/forgotpasswordotp', user.userforgotpasswordotppost);
+router.post('/forgotpasswordchange', user.userforgotpasswordchangepost);
 
 // Logout
 router.get('/logout', user.userlogoutget)

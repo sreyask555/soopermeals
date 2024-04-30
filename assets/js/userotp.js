@@ -67,11 +67,11 @@ function validateForm(){
 
 // Resetting OTP timer and otp submit button disability
 cancelOtpBtn.addEventListener('click', () => {
+    // timer setting on cancel-event
     reset = true;
 
     timer.textContent = '';
 
-    // submitOtpBtn.setAttribute('type', 'submit');
     submitOtpBtn.textContent = 'Submit';
 
     otpInput.value = '';
@@ -79,12 +79,6 @@ cancelOtpBtn.addEventListener('click', () => {
     otpInput.removeAttribute('readonly');
 })
 
-// Re-send-otp function is attached to submit-otp btn
-submitOtpBtn.addEventListener('click', () => {
-    if(submitOtpBtn.getAttribute('type') == 'button'){
-        
-    }
-})
 
 // Start OTP Timer and styling
 function startOtpRunner(seconds){
@@ -106,7 +100,6 @@ function startOtpRunner(seconds){
                     timer.textContent = 'OTP expired';
                     timer.classList.add('text-danger');
 
-                    // submitOtpBtn.setAttribute('type', 'button');
                     submitOtpBtn.textContent = 'Re-send OTP';
 
                     otpInput.value = 'OTPRESEND';

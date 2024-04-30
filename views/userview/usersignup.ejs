@@ -43,6 +43,7 @@
         allowEscapeKey : false,
       }).then(()=>{
         $("#staticBackdrop").modal('show');
+        reset = false;
         startOtpRunner(59);
       })
     </script>
@@ -58,6 +59,7 @@
           allowEscapeKey : false,
         }).then(()=>{
           $("#staticBackdrop").modal('show');
+          reset = false;
           signupEnabler(59);
         })
       </script>
