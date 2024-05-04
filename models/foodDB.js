@@ -1,14 +1,4 @@
-const mongoose = require('mongoose');
-
-// MongoDB-Node Connection
-mongoose.connect('mongodb://127.0.0.1:27017/soopermeal')
-.then(()=>{
-    console.log('MongoDB Connected for Food Schema');
-})
-.catch((err)=>{
-    console.log('MongoDB failed to connect');
-    console.error(err.stack)
-})
+const mongoose = require('./mongoDB');
 
 // doc-schemas
 const FoodDataSchema = new mongoose.Schema({
@@ -24,10 +14,6 @@ const FoodDataSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
-    // foodrating : {
-    //     type : Number,
-    //     required : true
-    // },
     foodtype : {
         type : String,
         required : true
@@ -39,6 +25,10 @@ const FoodDataSchema = new mongoose.Schema({
     foodimage : {
         type : [String],
         required : true
+    },
+    foodstock : {
+        type : Number,
+        default : 0
     },
     isListed : {
         type : Boolean,

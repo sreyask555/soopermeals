@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const order = require('../controller/ordercontroller');
+const checkout = require('../controller/checkoutcontroller');
 const userdatacollection = require('../models/userDB');
 
 // Middleware for user auth and block status
@@ -22,14 +22,8 @@ const checkUserIsBlocked =  async (req, res, next) => {
     }
 }
 
-// Order Management
-router.get('/', checkUserIsBlocked, order.orderget)
-
-router.get('/orderdetails/:id', checkUserIsBlocked, order.orderdetailsget);
-
-router.get('/cancelorder/:id', checkUserIsBlocked, order.cancelorderget);
-
-// Invoice Generation
-router.get('/invoice/:id', checkUserIsBlocked, order.invoiceget);
+// Checkout Management
+router.get('/', checkUserIsBlocked, checkout.checkoutget);
+router.post('/', checkout.checkoutpost);
 
 module.exports = router;

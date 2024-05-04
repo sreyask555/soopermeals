@@ -2,6 +2,9 @@ const admindatacollection = require('../models/adminDB');
 const userdatacollection = require('../models/userDB');
 const categorydatacollection = require('../models/categoryDB');
 const fooddatacollection = require('../models/foodDB');
+const orderdatacollection =  require('../models/orderDB');
+const addressdatacollection = require('../models/addressDB');
+const walletdatacollection = require('../models/walletDB');
 
 const controls = {
     adminloginget : (req, res)=>{
@@ -15,7 +18,8 @@ const controls = {
         try{
             const adminauthcheck = await admindatacollection.findOne({adminemail : email});
             if(email==adminauthcheck.adminemail && password==adminauthcheck.adminpassword){
-                req.session.adminAlerts.isAdminLoggedIn = true;
+                req.session.isAdminLoggedIn = true;
+                // req.session.adminID = adminData._id;(authorization for multi-admin)
                 console.log(req.session);
                 res.redirect('/admin/home')
             }
@@ -159,6 +163,7 @@ const controls = {
             // foodrating : req.body.foodrating,
             foodtype : req.body.foodtype,
             fooddescription : req.body.fooddescription,
+            foodstock : req.body.foodstock,
             foodimage : req.files.map(file => file.path.substring(6))
         }
         console.log(fooddata);
@@ -196,6 +201,7 @@ const controls = {
             // foodrating : req.body.foodrating,
             foodtype : req.body.foodtype,
             fooddescription : req.body.fooddescription,
+            foodstock : req.body.foodstock,
             // concatenating old images with new images
             foodimage : [...currentdata.foodimage, ...req.files.map(file => file.path.substring(6))]
         }
@@ -222,9 +228,32 @@ const controls = {
         // await fooddatacollection.findByIdAndUpdate(foodid, {foodimage : fooddata.foodimage.splice(foodindex, 1)}); error as splice returns removed items and that stores to DB
     },
 
+    adminproductstogglelist : async (req, res)=>{
+        const fooddata = await fooddatacollection.findById(req.params.id);
+        await fooddatacollection.findByIdAndUpdate(req.params.id, {isListed : !fooddata.isListed});
+        res.redirect('/admin/products');
+    },
+
     admindeleteproductsget : async (req, res)=>{
         await fooddatacollection.findByIdAndDelete(req.params.id);
         res.redirect('/admin/products');
+    },
+
+    adminorderget : async (req, res)=>{
+        const orderdata = await orderdatacollection.find().sort({orderdate : -1});
+        // const distinctorderdates = await orderdatacollection.aggregate([{$group : {_id : '$orderdate'}}, {$sort : {_id : -1}}, {$project : {_id : 0, orderdate : '$_id'}}]);
+
+        res.render('adminorder', {orderdata});
+    },
+
+    adminupdateorderpost : async (req, res)=>{
+        await orderdatacollection.findByIdAndUpdate(req.params.id, {orderstatus : req.body.orderstatus});
+        const orderdata = await orderdatacollection.findById(req.params.id);
+        if(req.body.orderstatus == 'Cancelled' && orderdata.orderpaymentmode == 'WALLET'){
+            // bring a logic to clean the 20 rupees to wallet or NOT..
+            await walletdatacollection.updateOne({userid : req.session.userID}, {$inc:{walletamount : (orderdata.foodquantity * orderdata.foodprice)}});
+        }
+        res.redirect('/admin/order');
     },
 }
 

@@ -20,21 +20,87 @@
         text : 'Please contact Administrator !',
     })</script>
     <%} %>
+
     <!-- Incorrect Credentials -->
   <% if(locals.unauth){ %>
-    <!-- <script>window.alert('Incorrect Credentials, Please enter carefully !')</script> -->
     <script>Swal.fire({
       icon: "error",
       title: "Incorrect Credentials",
       text : 'Please enter carefully !',
   })</script>
   <%} %>
+
     <!-- SignUp Success -->
   <% if(locals.signed){%>
-    <!-- <script>window.alert('Welcome you are successfully registered. Kindly login to continue')</script> -->
     <script>Swal.fire({
       icon: "success",
       title: "Welcome, you are successfully registered",
+      text : 'Kindly login to continue..',
+  })</script>
+  <%} %>
+
+    <!-- Forgot Mail Validated -->
+  <% if(locals.mailvalidated){%>
+      <script>
+        Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Mail validated"
+      }).then(()=>{
+        $("#otpStaticBackdrop").modal('show');
+        reset = false;
+        startOtpRunner(59);
+      })
+    </script>
+  <%} %>
+
+    <!-- Incorrect OTP -->
+    <% if(locals.incorrectotp){ %>
+      <script>
+      Swal.fire({
+        icon: "error",
+        title: "Incorrect OTP",
+        text : 'Please enter carefully !',
+      }).then(()=>{
+        $("#otpStaticBackdrop").modal('show');
+        reset = false;
+        startOtpRunner(59);
+      })
+      </script>
+    <%} %>
+
+    <!-- OTP Validated -->
+  <% if(locals.otpvalidated){%>
+      <script>
+        Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "OTP validated"
+      }).then(()=>{
+        $("#passwordStaticBackdrop").modal('show');
+      })
+    </script>
+  <%} %>
+
+  <!-- Password Change Success -->
+  <% if(locals.passwordchanged){%>
+    <script>Swal.fire({
+      icon: "success",
+      title: "Welcome, your password changed successfully",
       text : 'Kindly login to continue..',
   })</script>
   <%} %>
@@ -54,23 +120,230 @@
           <input name="email" type="email" class="form-control border rounded-3" id="emailInput"
             placeholder="name@example.com" required>
           <label class="form-label" for="emailInput">Email Address</label>
+          <div class="invalid-feedback fw-semibold">
+            Please provide a valid email
+          </div>
         </div>
         <div class="col-lg-8 form-floating mb-4">
           <input name="password" type="password" class="form-control border rounded-3" id="passwordInput"
             placeholder="Password" required pattern=".{3,}"> 
             <!-- regex exp - html pattern -->
             <label class="form-label" for="passwordInput">Password</label>
+            <div class="invalid-feedback fw-semibold">
+              Please enter your password
+            </div>
         </div>
-        <button class="col-lg-4 btn btn-primary mb-3" type="submit">Log In</button>
+        <button class="col-lg-3 btn btn-dark mb-2" type="submit">Log In</button>
       </div>
     </form>
 
+    <div class="d-flex flex-column align-items-center text-center">
+      <a style="cursor: pointer;" class="fw-semibold text-danger" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password ?</a>
+    </div>
+
       <div class="d-flex flex-column align-items-center text-center">
         <h4 class="mb-3 mt-5">New user ? Register to continue</h4>
-        <a href="/signup"><button class="btn btn-primary mb-3" type="button">Register here</button></a>
+        <a href="/signup"><button class="btn btn-dark mb-3" type="button">Register here</button></a>
       </div>
 
+            <!-- Mail Modal -->
+            <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <form action="/forgotpassword" method="POST" class="needs-validation" novalidate>
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+
+                      <div class="modal-body">
+                        <label for="otpemailInput" class="col-form-label">Enter your email</label>
+
+                            <input id="otpemailInput" type="email" class="form-control" name="email" required>
+                            <div class="invalid-feedback fw-semibold">
+                              Please provide a valid email
+                            </div>
+                            <div class="col-form-label d-flex justify-content-center">
+                              <button id="email-validate-btn" type="submit" class="btn btn-sm btn-dark">Validate email</button>
+                            </div>
+
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+            <!-- OTP Modal -->
+            <div class="modal fade" id="otpStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form action="/forgotpasswordotp" method="POST" class="needs-validation" novalidate>
+
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Enter OTP sent to E-mail</h1>
+                    </div>
+
+                    <div class="modal-body">
+                      <% if(locals.mailvalidated || locals.incorrectotp){%>
+                        <label for="validatedemailInput" class="col-form-label">Email</label>
+                        <input name="email" type="text" class="form-control" id="validatedemailInput" required value="<%= locals.formData.email %>" readonly>
+                        <%} %>
+
+                      <label for="otpInput" class="col-form-label">OTP</label>
+                      <input name="otp" type="password" class="form-control" id="otpInput" required pattern=".{4}">
+                      <div class="invalid-feedback fw-semibold">
+                        Please provide a valid OTP
+                      </div>
+                    </div>
+
+                    <div class="modal-footer d-flex justify-content-between">
+                      <div class="fw-semibold"><h1 class="fs-6 text-danger" id="timer"></h1></div>
+                      <div class="btns">
+                        <a href="/login" class="btn btn-secondary" id="otp-cancel-btn">Cancel</a>
+                        <button type="submit" class="btn btn-success" id="otp-submit-btn">Submit</button>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+
+            <!-- Password Modal -->
+            <div class="modal fade" id="passwordStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form id="forgotpassword-form" action="/forgotpasswordchange" method="POST" class="needs-validation" novalidate>
+
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Enter OTP sent to E-mail</h1>
+                    </div>
+
+                    <div class="modal-body">
+                      <% if(locals.otpvalidated){%>
+                        <label for="validatedemailInput" class="col-form-label">Email</label>
+                        <input name="email" type="text" class="form-control" required value="<%= locals.formData.email %>" readonly>
+                        <%} %>
+
+                      <% if(locals.otpvalidated){%>
+                        <label for="otpInput" class="col-form-label">OTP</label>
+                        <input name="otp" type="password" class="form-control" required value="<%= locals.formData.otp %>" readonly>
+                        <%} %>
+
+                      <label for="otppasswordInput1" class="col-form-label">Enter a new password</label>
+                      <input id="otppasswordInput1" type="password" class="form-control" name="password" required pattern="(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}">
+                      <div class="invalid-feedback fw-semibold">
+                        Please provide a strong password
+                      </div>
+
+                      <label for="otppasswordInput2" class="col-form-label">Confirm new password</label>
+                      <input id="otppasswordInput2" type="password" class="form-control" required pattern="(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}">
+                      <div class="invalid-feedback fw-semibold">
+                        Re-enter the same password
+                      </div>
+                    </div>
+
+                    <div class="modal-footer d-flex justify-content-between">
+                      <div class="fw-semibold"><h1 class="fs-6 text-danger" id="timer"></h1></div>
+                      <div class="btns">
+                        <a href="/login" class="btn btn-secondary" id="password-cancel-btn">Cancel</a>
+                        <button type="submit" class="btn btn-success" id="password-submit-btn">Submit</button>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+
   </div>
+
+  <!-- Forgot password OTP JS -->
+  <script>
+    // OTP Buttons
+    const submitPasswordBtn = document.querySelector('#password-submit-btn');
+    const submitOtpBtn = document.querySelector('#otp-submit-btn');
+
+    const timer = document.querySelector('#timer');
+    let reset = false;
+
+    // Input Fields
+    const password1 = document.querySelector('#otppasswordInput1');
+    const password2 = document.querySelector('#otppasswordInput2');
+
+    const otpInput = document.querySelector('#otpInput');
+
+    // Toaster
+    function toastIt(entry){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+          Toast.fire({
+            icon: "error",
+            title: `Invalid ${entry}`
+          });
+          return false;
+    }
+
+    // WITH DEFAULT BOOTSTRAP VALIDATION of forms + SWEETALERT VALIDATION
+    submitPasswordBtn.addEventListener('click', validateForm);
+    function validateForm(){
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}$/;
+      if(!passwordRegex.test(password1.value.trim())){
+        return toastIt('password length (Password must contain atleast an albhabet, one special character and a number)');
+      }
+      else if(password1.value.trim() !== password2.value.trim()){
+        $("#forgotpassword-form").submit(function(event){
+          event.preventDefault();
+        })
+        return toastIt('matching of passwords (Both passwords should match)');
+      }
+      else{
+        $("#forgotpassword-form").submit(function(event){
+          event.currentTarget.submit();
+        });
+      }
+}
+
+    // Start OTP Timer and styling
+    function startOtpRunner(seconds){
+        if(timer.textContent == 'OTP expired' || timer.textContent == ''){
+                let countdown = setInterval(()=>{
+                    if(reset){
+                        clearInterval(countdown);
+                        return;
+                    }
+
+                    timer.classList.remove('text-danger');
+                    timer.textContent = `Time Remaining : ${seconds} seconds`;
+
+                    if(seconds <= 0){
+                        clearInterval(countdown);
+
+                        timer.textContent = 'OTP expired';
+                        timer.classList.add('text-danger');
+
+                        submitOtpBtn.textContent = 'Re-send OTP';
+
+                        otpInput.value = 'OTPRESEND';
+                        otpInput.classList.add('opacity-0');
+                        otpInput.removeAttribute('pattern');
+                        otpInput.setAttribute('readonly', true);
+                    }
+                    else{
+                        seconds--;
+                    }
+            }, 1000)
+        }
+    }
+
+  </script>
 
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SooperMeals</title>
+  <!-- Bootstrap-CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Panel CSS -->
+  <link rel="stylesheet" href="/css/userprofilepanel.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary shadow">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="#">SooperMeals</a>
+      <div class="d-flex gap-4">
+        <a href="" class="bi bi-heart-fill fs-3 text-danger"></a>
+        <a href="/profile" class="bi bi-person-circle fs-3 text-dark"></a>
+        <a href="/cart" class="bi bi-bag-fill fs-3 text-dark"></a>
+        <a href="/logout"><button type="button" class="btn btn-danger">Logout</button></a>
+        </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid d-flex p-0">
+
+    <div class="sidebar shadow fw-semibold fs-6">
+        <ul class="nav flex-column px-5" id="menubar">
+            <li class="nav-item pb-1">
+            <a class="nav-link" href="/profile">Profile</a>
+            </li>
+
+            <li class="nav-item dropdown pb-1">
+                <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Address</a>
+                <ul class="dropdown-menu" aria-labelledby="productDropdown">
+                    <li><a class="dropdown-item" href="/profile/address">List Address</a></li>
+                    <li><a class="dropdown-item" href="/profile/addaddress">Add Address</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item pb-1">
+            <a id="sideitem" onclick="this.classList.add('btnclick')" class="nav-link" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Orders</a>
+            </li>
+
+            <li class="nav-item pb-1">
+            <a id="sideitem" onclick="this.classList.add('btnclick')" class="nav-link" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Wallet</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container d-flex flex-column justify-content-center pt-4 mt-5">
+
+      <h2 class="mb-4">Hi, <%= userdata.username %></h2>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-3">Order Summary</h3>
+        <!-- <a target="_blank" href="/order/invoice/<%= new Date(orderdata[0].orderdate).getTime() %>" class="btn btn-sm btn-dark">Get Invoice</a> -->
+        <a href="/order/invoice/<%= new Date(orderdata[0].orderdate).getTime() %>" class="btn btn-sm btn-dark">Get Invoice</a>
+      </div>
+
+      <div class="container pb-5 mb-5">
+        <div class="table-container">
+            <div class="mb-3">
+                <label class="form-label">Order ID</label>
+                <input type="text" class="form-control fw-semibold" value="<%= new Date(orderdata[0].orderdate).getTime() %>" disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Order Time</label>
+                <input type="text" class="form-control fw-semibold" value="<%= orderdata[0].orderdate.toLocaleString() %>" disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Customer Name</label>
+                <input type="text" class="form-control fw-semibold" value="<%= addressdata.firstname + ' ' + addressdata.lastname %>" disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Delivery Address</label>
+                <input type="text" class="form-control fw-semibold" value="<%= addressdata.housename + ', ' + addressdata.city + ', ' + addressdata.city + ', ' + addressdata.pincode + ', ' + addressdata.mobile %>" disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Payment Mode</label>
+                <input type="text" class="form-control fw-semibold" value="<%= orderdata[0].orderpaymentmode %>" disabled>
+            </div>
+
+            <table class="table table-striped overflow-hidden rounded text-center">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col">#</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% total_amount = 0 %>
+                    <% orderdata.forEach((odata, index)=>{%>
+                        <tr>
+                            <td><%= index+1 %></td>
+                            <td><%= odata.foodname %></td>
+                            <td><%= odata.foodquantity %></td>
+                            <td><%= odata.foodprice %></td>
+                            <th>₹<%= odata.foodprice * odata.foodquantity %></th>
+                        </tr>
+                        <% total_amount += (odata.foodprice * odata.foodquantity) %>
+                        <%}) %>
+                        <tr>
+                            <th colspan="5"> Total Amount : ₹<%= total_amount + 20 %> (incl. delivery charges and taxes)</th>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+
+              <!-- Confirm Modal -->
+              <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmCancelModalLabel">Confirm your action</h5>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to cancel this order?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" id="confirmCancelBtn">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+
+    </div>
+
+</div>
+
+  <footer class="fixed-bottom bg-dark text-center text-white">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      Designed with love 
+      <a class="text-white" href="#" style="text-decoration: none;">&copy;Soopermeals</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+
+  <script>
+        // Modal Jquery
+        function openConfirmCancelModal(url) {
+            $('#confirmCancelModal').modal('show');
+            $('#confirmCancelBtn').click(()=>{
+                window.location.href = url;
+            });
+        }
+  </script>
+
+  <!-- Jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  <!-- Bootstrap-JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Root JS -->
+  <script src="/js/global.js"></script>
+</body>
+
+</html>

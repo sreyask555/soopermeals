@@ -59,10 +59,9 @@
           <!--  -->
 
             <div class="d-flex gap-4">
-              <a href="" class="bi bi-person-circle fs-3 text-dark"></a>
-              <a href="" class="bi bi-bag-fill fs-3 text-dark"></a>
-              <!-- <a href=""><i class="bi bi-person-circle fs-3"></i></a> -->
-              <!-- <a href=""><button type="button" class="btn btn-success">Account</button></a> -->
+              <a href="" class="bi bi-heart-fill fs-3 text-danger"></a>
+              <a href="/profile" class="bi bi-person-circle fs-3 text-dark"></a>
+              <a href="/cart" class="bi bi-bag-fill fs-3 text-dark"></a>
               <a href="/logout"><button type="button" class="btn btn-danger">Logout</button></a>
           </div>
         </div>
@@ -71,8 +70,8 @@
     <div class="main-banner container-fluid">
         <div class="row">
             <div class="gradient-rect">
-              <!-- <h1>Hungry <%#= locals.userdata.username %>? Order your SooperMeals now :)</h1> -->
-              <h1>Hungry User? Order your SooperMeals now :)</h1>
+              <h1>Hungry <%= userdata.username.slice(0, userdata.username.indexOf(' ') == -1 ? undefined : userdata.username.indexOf(' '))%> ? Order your SooperMeals now :)</h1>
+              <!-- <h1>Hungry User? Order your SooperMeals now :)</h1> -->
               <p class="fs-3">Find the best soopermeal near you</p>
             </div>
         </div>
@@ -103,7 +102,7 @@
                                 <h6 class="card-text">Rs.<%= fdata.foodprice %></h6>
                                 <p class="card-text"><%= fdata.foodtype %></p>
                                 <!-- <p class="card-text"><%= fdata.foodprice %></p> -->
-                                <a href="#" class="btn btn-dark">Get SooperMeal</a>
+                                <a href="/productinfo/<%= fdata._id %>" class="btn btn-dark">Get SooperMeal</a>
                               </div>
                             </div>
                             <%} %>

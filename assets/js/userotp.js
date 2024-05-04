@@ -4,7 +4,11 @@ const cancelOtpBtn = document.querySelector('#otp-cancel-btn');
 const submitOtpBtn = document.querySelector('#otp-submit-btn');
 
 const timer = document.querySelector('#timer');
+const otpInput = document.querySelector('#otpInput');
+
+// flag varible for cancel-otp event 
 let reset = false;
+
 // sendOtpBtn.addEventListener('click', signupEnabler.bind(null, 59)); //binding because, direct passing will auto-run function at starting.
 
 // Input Fields
@@ -33,6 +37,10 @@ function toastIt(entry){
 // Form Validation
 sendOtpBtn.addEventListener('click', validateForm);
 function validateForm(){
+    // preventing submission of signup-form on default btn-submit
+    $("#signup-form").submit(function(event){
+        event.preventDefault();
+    });
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*[@$!%*?&])(?=.*\d).{3,}$/;
     if(name.value.trim() === ''){
@@ -51,8 +59,6 @@ function validateForm(){
         return toastIt('matching of passwords (Both passwords should match)')
     }
     else{
-        // sendOtpBtn.dataset.bsToggle = "modal";
-        // sendOtpBtn.dataset.bsTarget = "#staticBackdrop";
         $("#staticBackdrop").modal('show');
         reset = false;
         signupEnabler(59);
@@ -61,36 +67,53 @@ function validateForm(){
 
 // Resetting OTP timer and otp submit button disability
 cancelOtpBtn.addEventListener('click', () => {
-    // sendOtpBtn.dataset.bsToggle = "";
-    // sendOtpBtn.dataset.bsTarget = "";
-
-    submitOtpBtn.classList.remove('disabled');
-
+    // timer setting on cancel-event
     reset = true;
+
     timer.textContent = '';
+
+    submitOtpBtn.textContent = 'Submit';
+
+    otpInput.value = '';
+    otpInput.classList.remove('opacity-0');
+    otpInput.removeAttribute('readonly');
 })
+
 
 // Start OTP Timer and styling
 function startOtpRunner(seconds){
+    // otp-expired state or a fresh-page state
     if(timer.textContent == 'OTP expired' || timer.textContent == ''){
             let countdown = setInterval(()=>{
+                // stop otp-running whenever otp-cancel event triggered
                 if(reset){
                     clearInterval(countdown);
                     return;
                 }
+
                 timer.classList.remove('text-danger');
                 timer.textContent = `Time Remaining : ${seconds} seconds`;
+
                 if(seconds <= 0){
                     clearInterval(countdown);
+
                     timer.textContent = 'OTP expired';
-                    timer.classList.add('text-danger')
-                    submitOtpBtn.classList.add('disabled');
+                    timer.classList.add('text-danger');
+
+                    submitOtpBtn.textContent = 'Re-send OTP';
+
+                    otpInput.value = 'OTPRESEND';
+                    otpInput.classList.add('opacity-0');
+                    otpInput.setAttribute('readonly', true);
                 }
                 else{
                     seconds--;
                 }
         }, 1000)
     }
+    // else{
+    //     // otp-running state
+    // }
 }
 
 
