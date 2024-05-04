@@ -3,11 +3,27 @@ const router = express.Router();
 
 const admin = require('../controller/admincontroller');
 
-// ADMIN ROUTES
-// Login and Home
-router.get('/', admin.adminloginget);
+// Application Middlewares
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination : (req, file, cb) => {
+        cb(null, 'assets/img/uploads');
+    },
+    filename : (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 
-router.post('/home', admin.adminloginpost);
+// Middleware for multiple images uploading
+const multerImageUpload = multer({ storage : storage}).array('foodimage');
+
+// ADMIN ROUTES
+// Login
+router.get('/', admin.adminloginget);
+router.post('/', admin.adminloginpost);
+
+// Home
+// can use a middleware for admin auth check if need
 router.get('/home', admin.adminhome);
 
 // User Management
@@ -26,9 +42,16 @@ router.post('/editproductcategory/:id', admin.admineditproductcategorypost);
 router.get('/deleteproductcategory/:id', admin.admindeleteproductcategory);
 
 // Product Management
-router.get('/products')
+router.get('/products', admin.adminproductsget);
 
 router.get('/addproducts', admin.adminaddproductsget);
+router.post('/addproducts', multerImageUpload, admin.adminaddproductspost);
 
+router.get('/editproducts/:id', admin.admineditproductsget);
+router.post('/editproducts/:id', multerImageUpload, admin.admineditproductspost);
+
+router.post('/removeImagefetchAPI', admin.adminremoveImagefetchAPI);
+
+router.get('/deleteproducts/:id', admin.admindeleteproductsget);
 
 module.exports = router;

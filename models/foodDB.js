@@ -16,24 +16,28 @@ const FoodDataSchema = new mongoose.Schema({
         type : String,
         requied : true
     },
-    foodimage : {
-        type : [String],
+    foodcategory : {
+        type : String,
         required : true
     },
     foodprice : {
         type : Number,
         required : true
     },
-    foodnotes : {
+    // foodrating : {
+    //     type : Number,
+    //     required : true
+    // },
+    foodtype : {
         type : String,
         required : true
     },
-    foodcategory : {
+    fooddescription : {
         type : String,
         required : true
     },
-    foodrating : {
-        type : Number,
+    foodimage : {
+        type : [String],
         required : true
     },
     isListed : {

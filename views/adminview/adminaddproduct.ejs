@@ -9,6 +9,9 @@
   <!-- Root CSS -->
   <link rel="stylesheet" href="/css/adminpanel.css">
 
+  <!-- SweetAlert JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
 
@@ -41,7 +44,7 @@
             Product Management
           </a>
           <ul class="dropdown-menu" aria-labelledby="productDropdown">
-            <li><a class="dropdown-item" href="#">List Products</a></li>
+            <li><a class="dropdown-item" href="/admin/products">List Products</a></li>
             <li><a class="dropdown-item" href="#">Add Product</a></li>
             <li><a class="dropdown-item" href="/admin/productcategory">Product Categories</a></li>
             <li><a class="dropdown-item" href="/admin/addproductcategory">Add Categories</a></li>
@@ -52,19 +55,18 @@
 
     <!-- Main Content -->
     <div class="container-fluid mt-5">
-        <!-- <% if(locals.catinfofail){%>
-            <div class="alert alert-danger text-center mt-2" role="alert"><%= catinfofail %></div>
-            <%} %> -->
 
-        <form class="row p-5 needs-validation" action="" method="POST" novalidate>
+      <!-- Food added to DB Alert-->
+
+        <form class="row p-5 needs-validation" action="/admin/addproducts" method="POST" enctype="multipart/form-data" novalidate>
             <div class="col-md-4 mb-3">
                 <label for="foodInput" class="form-label">Enter a new food item</label>
-                <input type="text" class="form-control" id="foodInput" required>
+                <input name="foodname" type="text" class="form-control" id="foodInput" required>
             </div>
 
             <div class="col-md-4 mb-3">
                 <label class="form-label" for="category">Category</label>
-                <select class="form-select" id="category" required>
+                <select name="foodcategory" class="form-select" id="category" required>
                   <option value="" selected disabled>Choose one...</option>
                   <% if(categorydata.length > 0){%>
                     <% categorydata.forEach((data)=>{%>
@@ -79,12 +81,12 @@
 
             <div class="col-md-4 mb-3">
                 <label for="priceInput" class="form-label">Enter the price</label>
-                <input type="number" class="form-control" id="priceInput" required>
+                <input name="foodprice" type="number" class="form-control" id="priceInput" required>
             </div>
 
-            <div class="col-md-3 mb-3">
+            <!-- <div class="col-md-3 mb-3">
                 <label class="form-label" for="rating">Rating</label>
-                <select class="form-select" id="rating" required>
+                <select name="foodrating" class="form-select" id="rating" required>
                   <option value="" selected disabled>Choose one...</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -92,17 +94,17 @@
                   <option value="3">4</option>
                   <option value="3">5</option>
                 </select>
-            </div>            
+            </div>             -->
 
             <fieldset class="col-md-3 mb-3">
               <legend class="col-form-label">Choose the food type</legend>
               <div class="d-flex justify-content-between">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" required>
+                  <input name="foodtype" class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="Vegetarian" required>
                   <label class="form-check-label" for="gridRadios1">Vegetarian</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" required>
+                  <input name="foodtype" class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="Non - Vegetarian" required>
                   <label class="form-check-label" for="gridRadios2">Non - Vegetarian</label>
                 </div>
               </div>
@@ -110,17 +112,18 @@
 
             <div class="col-md-6 mb-3">
                 <label for="inputEmail3" class="form-label">Enter a description</label>
-                <input type="text" class="form-control" id="inputEmail3" required>
+                <input name="fooddescription" type="text" class="form-control" id="inputEmail3" required>
             </div>
 
             <div class="col-md-12 mb-3">
-                <label for="imgupload" class="form-label">Choose images</label>
-                <input class="form-control form-control-sm" id="imgupload" name="img" type="file" accept="image/*" required multiple onchange="previewImages(event)">
+                <label for="imgupload" class="form-label"><button style="pointer-events: none;" class="btn btn-warning mt-4">Select Images</button></label>
+                <!-- <label for="imgupload" class="form-label">Choose images</label> -->
+                <input name="foodimage" style="display: none;" class="form-control form-control-sm" id="imgupload" type="file" accept="image/*" required multiple onchange="previewImages(event)">
                 <div id="image-preview" class="image-preview"></div>
             </div>
 
             <div class="d-flex justify-content-center mt-3 gap-3">
-                <a href="" class="btn btn-secondary">Back to products</a>
+                <a href="/admin/productcategory" class="btn btn-secondary">Back to products</a>
                 <button type="submit" class="btn btn-success">Add Product</button>
             </div>
           </form>
@@ -138,53 +141,8 @@
   <!-- Copyright -->
 </footer>
 
+
 <!-- Image preview JS -->
-<!-- <script>
-    function previewImages(event) {
-        const previewContainer = document.getElementById('image-preview');
-        previewContainer.innerHTML = '';
-
-        const files = event.target.files;
-
-        for (const file of files) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                // const img = document.createElement('img');
-                // img.style.height = "80px";
-                // img.style.width = "80px";
-                // img.style.margin = "10px";
-                // img.src = e.target.result;
-                // img.classList.add('preview-image');
-                // previewContainer.appendChild(img);
-
-                const imgWrapper = document.createElement('div');
-                imgWrapper.className = 'd-inline-flex flex-column align-items-center';
-
-                const img = document.createElement('img');
-                img.style.height = "80px";
-                img.style.width = "80px";
-                img.style.margin = "10px";
-                img.src = e.target.result;
-                img.classList.add('preview-image');
-                imgWrapper.appendChild(img);
-
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.className = 'btn btn-danger btn-sm';
-                deleteButton.style.width = "80px";
-                deleteButton.onclick = function () {
-                    imgWrapper.remove();
-                };
-                imgWrapper.appendChild(deleteButton);
-
-                previewContainer.appendChild(imgWrapper);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-</script> -->
 <script>
   let selectedFiles = []; // Maintain an array to store selected files
 
@@ -192,7 +150,21 @@
       const previewContainer = document.getElementById('image-preview');
       previewContainer.innerHTML = '';
 
-      selectedFiles = event.target.files; // Update the array of selected files
+      // Update the array of selected files
+      const selectedFiles = event.target.files;
+
+      //Check all the files are images
+      for(let img of selectedFiles){
+        if (!img.type.includes('image/')){
+          Swal.fire({
+                  icon: "error",
+                  title: "File upload error !",
+                  text : 'Please upload only images',
+                  showConfirmButton: true,
+          });
+          return;
+        }
+      }
 
       for (const file of selectedFiles) {
           const reader = new FileReader();
@@ -201,14 +173,17 @@
               const imgWrapper = document.createElement('div');
               imgWrapper.className = 'd-inline-flex flex-column align-items-center';
 
+              // Image creation for preview
               const img = document.createElement('img');
               img.style.height = "80px";
               img.style.width = "80px";
               img.style.margin = "10px";
               img.src = e.target.result;
               img.classList.add('preview-image');
+              img.classList.add('rounded');
               imgWrapper.appendChild(img);
 
+              // Delete button for images
               const deleteButton = document.createElement('button');
               deleteButton.textContent = 'Delete';
               deleteButton.className = 'btn btn-danger btn-sm';
@@ -226,15 +201,13 @@
       }
   }
 
+  // Check removefile() is working ?
+  // check this is working when removing from DOM as well as from image array after file selected from file manager before submitting to DB
   function removeFile(fileToRemove) {
-      selectedFiles = Array.from(selectedFiles).filter(file => file !== fileToRemove);
-      // resetFileInput();
+      selectedFiles = Array.from(selectedFiles).filter((file) => {
+        file !== fileToRemove;
+      });
   }
-
-  // function resetFileInput() {
-  //   const input = document.getElementById('imgupload');
-  //   input.parentNode.replaceChild(input.cloneNode(true), input);
-  // }
 </script>
 
 
