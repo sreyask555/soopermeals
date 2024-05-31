@@ -75,9 +75,9 @@ router.get('/producttogglelist/:id', admin.adminproductstogglelist)
 router.get('/deleteproducts/:id', admin.admindeleteproductsget);
 
 // also we could use ordercontroller here so that order.adminorderget; MVC vs CLEAN
+
 // Order Management
 router.get('/order', admin.adminorderget);
-
 router.post('/updateorder/:id', admin.adminupdateorderpost);
 
 module.exports = router;

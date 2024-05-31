@@ -194,7 +194,7 @@
       previewContainer.innerHTML = '';
 
       // Update the array of selected files
-      const selectedFiles = event.target.files;
+      selectedFiles = event.target.files;
 
       //Check all the files are images
       for(let img of selectedFiles){
@@ -252,7 +252,7 @@
       });
   }
 
-  // Old images removing from DOM and DB using fetchAPI
+  // Old images removing from DOM and DB using fetchAPI and DOM - reload
   let removeImageBtnNodeList = document.querySelectorAll('.remove-image');
   console.log(removeImageBtnNodeList)
   for(let removeImageBtn of removeImageBtnNodeList){
@@ -266,15 +266,10 @@
         foodid : removeImageBtn.dataset.foodid,
         foodindex : removeImageBtn.dataset.foodindex
       })
-    }).then((res) => {
-      // remove item from DOM ----- CHECK THIS (try req.params and reload using res.redirect('/admin/editproduct/:id'))
-      // removeImageBtn.prev('img').remove();
-      // removeImageBtn.remove()
-    }).catch((err) => console.info(err));
-    });
-  }
-
-
+    }).then((res) => console.log(res)).catch((err) => console.error(err));
+    window.location.reload();
+  })
+}
 
 </script>
 

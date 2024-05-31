@@ -221,7 +221,7 @@ const controls = {
         const foodindex = req.body.foodindex;
         console.log(foodid, foodindex);
 
-        fooddata = await fooddatacollection.findById(foodid);
+        const fooddata = await fooddatacollection.findById(foodid);
         fooddata.foodimage.splice(foodindex, 1)
         await fooddata.save();
         // try redirecting using /:id - note on ejs JS part
