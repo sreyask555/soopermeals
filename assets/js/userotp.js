@@ -120,7 +120,7 @@ function startOtpRunner(seconds){
 // Input field fetching and otp enabling
 function signupEnabler(seconds){
     // Fetch API
-    fetch('http://localhost:3000/fetchAPI', {
+    fetch(`${window.location.origin}/fetchAPI`, {
         method : 'POST',
         redirect : 'follow',
         headers : {
