@@ -6,11 +6,14 @@ const nodemailer = require('nodemailer');
 
 // Otp Mail Service
 const transporter = nodemailer.createTransport({
-    host : 'smtp.ethereal.email',
-    port : 587,
+    host : process.env.SMTP_HOST,
+    port : process.env.SMTP_PORT,
+    //secure : true, // for gmail smtp (port 465)
+    //secure : false, // for other smtp servers (port 587, 25 etc.) It upgrades to STARTTLS automatically if server supports.
+    secure : process.env.SMTP_PORT==465 ? true : false,
     auth : {
-        user: 'juwan.reinger@ethereal.email',
-        pass: 'UnjM5zk67JvbUSXEn8'
+        user: process.env.SMTP_USERID,
+        pass: process.env.SMTP_PASSWORD
     }
 });
 
@@ -80,7 +83,7 @@ const controls = {
                 otpgen = generateOtp();
                 console.log('OTP gen pwd-change : '+ otpgen);
                 const mailOptions = {
-                from: "soopermeals-admin@gmail.com",
+                from: process.env.SMTP_MAILFROM,
                 to: req.body.email,
                 subject: "OTP Verification",
                 text: `Your OTP is: ${otpgen}. Please don't share your OTP with others`,
@@ -125,13 +128,12 @@ const controls = {
         else if(req.body.otp == 'OTPRESEND'){
             formData = req.body;
             console.log('resend OTP : ', formData);
-            const userdata = await userdatacollection.findOne({useremail : req.body.email});
 
             // OTP generation
             otpgen = generateOtp();
             console.log('OTP gen pwd-change : '+ otpgen);
             const mailOptions = {
-            from: "soopermeals-admin@gmail.com",
+            from: process.env.SMTP_MAILFROM,
             to: req.body.email,
             subject: "OTP Verification",
             text: `Your OTP is: ${otpgen}. Please don't share your OTP with others`,
@@ -230,7 +232,7 @@ const controls = {
                 otpgen = generateOtp();
                 console.log('OTP gen : '+ otpgen);
                 const mailOptions = {
-                from: "soopermeals-admin@gmail.com",
+                from: process.env.SMTP_MAILFROM,
                 to: formData.email,
                 subject: "OTP Verification",
                 text: `Your OTP is: ${otpgen}. Please don't share your OTP with others`,
